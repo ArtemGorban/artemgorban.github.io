@@ -77,7 +77,8 @@
   
   .nick{font-weight:700;font-size:13px;transition:.2s}
   .nick-tg{color:var(--mountain)}
-  .nick.clickable{cursor:pointer;border-bottom:1px dashed transparent}
+  /* Стили для кликабельного ника */
+  .nick.clickable{cursor:pointer;border-bottom:1px dashed transparent;padding:2px 0;display:inline-block}
   .nick.clickable:hover{color:var(--gold);border-bottom-color:var(--gold)}
   
   /* Легенда для формы */
@@ -236,7 +237,6 @@
 const DATA_URL = 'data.json';
 const $ = (s, c=document) => c.querySelector(s);
 
-// Глобальная переменная для доступа к данным из модалки
 let appState = null;
 
 const TEAM_ABBR = {
@@ -318,31 +318,26 @@ function renderNextGame(state){
   `;
 }
 
-// Функция для открытия модального окна с историей игрока
 function openUserModal(nickname) {
   if (!appState) return;
-  
   const preds = appState.predictions.filter(p => p.nick === nickname);
-  // Сортируем по номеру матча (по возрастанию)
   preds.sort((a,b) => Number(a.matchId) - Number(b.matchId));
 
-  $('#modal-title').innerHTML = `История прогнозов: <span style="color:var(--mountain)">${esc(nickname)}</span>`;
+  $('#modal-title').innerHTML = `История: <span style="color:var(--mountain)">${esc(nickname)}</span>`;
   
   if (!preds.length) {
-    $('#modal-body-table').innerHTML = `<tr><td colspan="5"><div class="empty">У этого игрока пока нет прогнозов</div></td></tr>`;
+    $('#modal-body-table').innerHTML = `<tr><td colspan="5"><div class="empty">Нет прогнозов</div></td></tr>`;
   } else {
     $('#modal-body-table').innerHTML = preds.map(p => {
       const m = appState.matches.find(x => x.id === Number(p.matchId));
       const s = m ? score(p, m, appState.config) : null;
       const actual = m && isPlayed(m) ? `${m.utah} : ${m.opp}` : '—';
-      
       let ptsCell = `<span class="badge mut">—</span>`;
       if (s && s.points != null) {
         if (s.exact) ptsCell = `<span class="pts">${s.points}</span> <span class="badge exact">точно!</span>`;
         else if (s.points > 0) ptsCell = `<span class="pts">${s.points}</span>`;
         else ptsCell = `<span class="badge bad">0</span>`;
       }
-
       return `<tr class="${s && s.exact ? 'exact':''}">
         <td>#${p.matchId} <span style="color:var(--mut);font-size:11px">(${m ? fmtDate(m.date) : ''})</span></td>
         <td><div class="team-cell">${m ? getLogo(m.opponent) : ''} ${m ? esc(m.opponent) : '—'}</div></td>
@@ -352,25 +347,26 @@ function openUserModal(nickname) {
       </tr>`;
     }).join('');
   }
-
   $('#user-modal').classList.add('active');
 }
 
-// Закрытие модалки
-function closeModal() {
-  $('#user-modal').classList.remove('active');
-}
-
+function closeModal() { $('#user-modal').classList.remove('active'); }
 document.getElementById('close-modal').addEventListener('click', closeModal);
-$('#user-modal').addEventListener('click', (e) => {
-  if (e.target.id === 'user-modal') closeModal();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
+$('#user-modal').addEventListener('click', (e) => { if (e.target.id === 'user-modal') closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+// Самое главное: вешаем обработчик клика прямо на document
+document.addEventListener('click', (e) => {
+  // Если кликнули на элемент с классом clickable
+  const target = e.target.closest('.nick.clickable');
+  if (target) {
+    const nick = target.getAttribute('data-nick');
+    if (nick) openUserModal(nick);
+  }
 });
 
 function render(state){
-  appState = state; // Сохраняем для модалки
+  appState = state;
   $('#loader').style.display='none';
   $('#content').style.display='block';
 
@@ -381,6 +377,7 @@ function render(state){
   const sortC = [...list].sort((a,b)=>b.count-a.count||b.points-a.points||a.nick.localeCompare(b.nick));
   const sortE = [...list].sort((a,b)=>b.exact-a.exact||b.points-a.points||a.nick.localeCompare(b.nick));
 
+  // Добавляем data-nick и класс clickable
   const renderBody = (arr, cols) => arr.length ? arr.map((r,i)=>
     `<tr>
       <td><span class="${posClass(i)}">${i+1}</span></td>
@@ -396,7 +393,6 @@ function render(state){
   $('#r-count').innerHTML  = renderBody(sortC, ['count']);
   $('#r-exact').innerHTML  = renderBody(sortE, ['exact']);
 
-  // Матчи
   const played = state.matches.filter(isPlayed).length;
   $('#m-stats').innerHTML = `
     <div class="stat"><small>Всего матчей</small><b>${state.matches.length}</b></div>
@@ -411,7 +407,6 @@ function render(state){
     return `<tr class="${pl?'played':''}"><td>${m.id}</td><td>${fmtDate(m.date)}</td><td><div class="team-cell">${getLogo(m.opponent)} ${esc(m.opponent)}</div></td><td>${esc(m.venue)}</td><td><b style="color:${pl?'var(--mountain)':'var(--mut)'}">${scoreTxt}</b></td><td>${cnt||'—'}</td></tr>`;
   }).join('');
 
-  // Прогнозы (публичные)
   const playedMatches = state.matches.filter(isPlayed).sort((a,b)=>b.id-a.id);
   const filterSel = $('#pred-match-filter');
   filterSel.innerHTML = `<option value="all">Все сыгранные матчи</option>` + 
@@ -420,7 +415,6 @@ function render(state){
   function renderPreds(matchId){
     let preds = state.predictions;
     if(matchId !== 'all') preds = preds.filter(p=>Number(p.matchId)===Number(matchId));
-    
     preds.sort((a,b)=>b.matchId-a.matchId || a.nick.localeCompare(b.nick));
     
     if(!preds.length){
@@ -453,14 +447,6 @@ function render(state){
   renderPreds('all');
   filterSel.onchange = (e) => renderPreds(e.target.value);
 }
-
-// Делегирование событий для клика по нику
-document.addEventListener('click', (e) => {
-  if (e.target.classList.contains('nick') && e.target.classList.contains('clickable')) {
-    const nick = e.target.getAttribute('data-nick');
-    openUserModal(nick);
-  }
-});
 
 document.querySelectorAll('nav button').forEach(btn => {
   btn.addEventListener('click', () => {
