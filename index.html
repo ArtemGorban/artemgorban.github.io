@@ -75,8 +75,10 @@
   .pos.silver{background:rgba(200,200,200,.15);color:#C8C8C8}
   .pos.bronze{background:rgba(200,140,80,.2);color:#C88C50}
   
-  .nick{font-weight:700;font-size:13px}
+  .nick{font-weight:700;font-size:13px;transition:.2s}
   .nick-tg{color:var(--mountain)}
+  .nick.clickable{cursor:pointer;border-bottom:1px dashed transparent}
+  .nick.clickable:hover{color:var(--gold);border-bottom-color:var(--gold)}
   
   /* Легенда для формы */
   .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:8px;background:rgba(6,14,31,.4);padding:6px 10px;border-radius:6px}
@@ -107,6 +109,20 @@
   /* Логотипы в таблицах */
   .team-cell{display:flex;align-items:center;gap:8px}
   .team-cell img{width:20px;height:20px}
+
+  /* Модальное окно */
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:.3s}
+  .modal-overlay.active{opacity:1;pointer-events:auto}
+  .modal-content{background:var(--card);border:1px solid var(--mountain);border-radius:12px;width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(20px);transition:.3s;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  .modal-overlay.active .modal-content{transform:translateY(0)}
+  .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:rgba(113,197,232,.05);border-radius:12px 12px 0 0}
+  .modal-header h3{font-size:18px;color:var(--gold);margin:0;display:flex;align-items:center;gap:10px}
+  .btn-close{background:transparent;border:none;color:var(--mut);font-size:24px;cursor:pointer;line-height:1;transition:.2s}
+  .btn-close:hover{color:var(--bad)}
+  .modal-body{padding:0;overflow-y:auto;border-radius:0 0 12px 12px}
+  .modal-table{width:100%;font-size:13px;margin:0}
+  .modal-table th{position:sticky;top:0;background:var(--card);z-index:1;border-bottom:2px solid var(--line)}
+  .modal-table td{padding:10px 20px}
 </style>
 </head>
 <body>
@@ -130,13 +146,10 @@
   <div id="error" class="error" style="display:none"></div>
   
   <div id="content" style="display:none">
-    
-    <!-- ВКЛАДКА РЕЙТИНГ -->
+    <!-- РЕЙТИНГ -->
     <section id="tab-rating" class="tab active">
       <div id="next-game-box"></div>
-      
       <h2>Рейтинг <small>по очкам</small></h2>
-      
       <div class="legend">
         <span>Форма (последние 5 матчей):</span>
         <span><span class="dot exact"></span> точный</span>
@@ -144,7 +157,6 @@
         <span><span class="dot win"></span> победитель</span>
         <span><span class="dot loss"></span> промах</span>
       </div>
-
       <div class="rating-grid">
         <div class="rating-block">
           <h4>🏆 Общий зачёт</h4>
@@ -176,7 +188,7 @@
       </div>
     </section>
 
-    <!-- ВКЛАДКА МАТЧИ -->
+    <!-- МАТЧИ -->
     <section id="tab-matches" class="tab">
       <h2>Матчи <small>результаты</small></h2>
       <div class="stats" id="m-stats"></div>
@@ -188,13 +200,11 @@
       </div>
     </section>
 
-    <!-- ВКЛАДКА ПРОГНОЗЫ -->
+    <!-- ПРОГНОЗЫ -->
     <section id="tab-predictions" class="tab">
       <h2>Прогнозы участников <small>кто на что поставил</small></h2>
       <div class="filter-row">
-        <select id="pred-match-filter">
-          <option value="all">Все сыгранные матчи</option>
-        </select>
+        <select id="pred-match-filter"><option value="all">Все сыгранные матчи</option></select>
       </div>
       <div class="table-wrap">
         <table>
@@ -203,7 +213,22 @@
         </table>
       </div>
     </section>
+  </div>
+</div>
 
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div id="user-modal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modal-title">Прогнозы</h3>
+      <button id="close-modal" class="btn-close" aria-label="Закрыть">&times;</button>
+    </div>
+    <div class="modal-body">
+      <table class="modal-table">
+        <thead><tr><th>Матч</th><th>Соперник</th><th>Прогноз</th><th>Итог</th><th>Очки</th></tr></thead>
+        <tbody id="modal-body-table"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -211,10 +236,11 @@
 const DATA_URL = 'data.json';
 const $ = (s, c=document) => c.querySelector(s);
 
-// Словарь для сопоставления русских названий и сокращений НХЛ
+// Глобальная переменная для доступа к данным из модалки
+let appState = null;
+
 const TEAM_ABBR = {
-  'Юта': 'UTA',
-  'Питтсбург': 'PIT', 'Сиэтл Кракен': 'SEA', 'Тампа': 'TBL', 'Миннесота': 'MIN',
+  'Юта': 'UTA', 'Питтсбург': 'PIT', 'Сиэтл Кракен': 'SEA', 'Тампа': 'TBL', 'Миннесота': 'MIN',
   'Филадельфия': 'PHI', 'Торонто': 'TOR', 'Монреаль': 'MTL', 'Оттава': 'OTT',
   'Вегас': 'VGK', 'Сент-Луис': 'STL', 'Сан-Хосе': 'SJS', 'Ванкувер': 'VAN',
   'Колорадо': 'COL', 'Анахайм': 'ANA', 'Виннипег': 'WPG', 'Нэшвилл': 'NSH',
@@ -226,9 +252,7 @@ const TEAM_ABBR = {
 
 function getLogo(teamName, size = 20) {
   const abbr = TEAM_ABBR[teamName];
-  if (abbr) {
-    return `<img src="https://assets.nhle.com/logos/nhl/svg/${abbr}_light.svg" width="${size}" height="${size}" alt="${esc(teamName)}" onerror="this.style.display='none'">`;
-  }
+  if (abbr) return `<img src="https://assets.nhle.com/logos/nhl/svg/${abbr}_light.svg" width="${size}" height="${size}" alt="${esc(teamName)}" onerror="this.style.display='none'">`;
   return '';
 }
 
@@ -272,24 +296,15 @@ function renderNextGame(state){
   const next = state.matches.find(m=>!isPlayed(m));
   const box = $('#next-game-box');
   if(!next) { box.innerHTML = ''; return; }
-  
   const isHome = next.venue === 'Дома';
   box.innerHTML = `
     <div class="next-game">
       <div>
-        <div class="ng-info">
-          <small>Следующий матч</small>
-        </div>
+        <div class="ng-info"><small>Следующий матч</small></div>
         <div class="ng-teams">
-          <div class="ng-team">
-            ${getLogo('Юта', 48)} 
-            <b>Юта</b>
-          </div>
+          <div class="ng-team">${getLogo('Юта', 48)} <b>Юта</b></div>
           <div class="ng-vs">VS</div>
-          <div class="ng-team">
-            ${getLogo(next.opponent, 48)}
-            <b>${esc(next.opponent)}</b>
-          </div>
+          <div class="ng-team">${getLogo(next.opponent, 48)} <b>${esc(next.opponent)}</b></div>
         </div>
         <div class="ng-info" style="margin-top:8px">
           <span>${fmtDate(next.date)} · ${isHome?'Дома':'В гостях'}</span>
@@ -303,7 +318,59 @@ function renderNextGame(state){
   `;
 }
 
+// Функция для открытия модального окна с историей игрока
+function openUserModal(nickname) {
+  if (!appState) return;
+  
+  const preds = appState.predictions.filter(p => p.nick === nickname);
+  // Сортируем по номеру матча (по возрастанию)
+  preds.sort((a,b) => Number(a.matchId) - Number(b.matchId));
+
+  $('#modal-title').innerHTML = `История прогнозов: <span style="color:var(--mountain)">${esc(nickname)}</span>`;
+  
+  if (!preds.length) {
+    $('#modal-body-table').innerHTML = `<tr><td colspan="5"><div class="empty">У этого игрока пока нет прогнозов</div></td></tr>`;
+  } else {
+    $('#modal-body-table').innerHTML = preds.map(p => {
+      const m = appState.matches.find(x => x.id === Number(p.matchId));
+      const s = m ? score(p, m, appState.config) : null;
+      const actual = m && isPlayed(m) ? `${m.utah} : ${m.opp}` : '—';
+      
+      let ptsCell = `<span class="badge mut">—</span>`;
+      if (s && s.points != null) {
+        if (s.exact) ptsCell = `<span class="pts">${s.points}</span> <span class="badge exact">точно!</span>`;
+        else if (s.points > 0) ptsCell = `<span class="pts">${s.points}</span>`;
+        else ptsCell = `<span class="badge bad">0</span>`;
+      }
+
+      return `<tr class="${s && s.exact ? 'exact':''}">
+        <td>#${p.matchId} <span style="color:var(--mut);font-size:11px">(${m ? fmtDate(m.date) : ''})</span></td>
+        <td><div class="team-cell">${m ? getLogo(m.opponent) : ''} ${m ? esc(m.opponent) : '—'}</div></td>
+        <td><b style="color:var(--mountain)">${p.utah} : ${p.opp}</b></td>
+        <td style="color:var(--mut)">${actual}</td>
+        <td>${ptsCell}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  $('#user-modal').classList.add('active');
+}
+
+// Закрытие модалки
+function closeModal() {
+  $('#user-modal').classList.remove('active');
+}
+
+document.getElementById('close-modal').addEventListener('click', closeModal);
+$('#user-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'user-modal') closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
 function render(state){
+  appState = state; // Сохраняем для модалки
   $('#loader').style.display='none';
   $('#content').style.display='block';
 
@@ -315,12 +382,14 @@ function render(state){
   const sortE = [...list].sort((a,b)=>b.exact-a.exact||b.points-a.points||a.nick.localeCompare(b.nick));
 
   const renderBody = (arr, cols) => arr.length ? arr.map((r,i)=>
-    `<tr><td><span class="${posClass(i)}">${i+1}</span></td>
-     <td><span class="nick ${r.nick.startsWith('@')?'nick-tg':''}">${esc(r.nick)}</span></td>
-     ${cols.includes('count')?`<td>${r.count}</td>`:''}
-     ${cols.includes('streak')?`<td><div class="streak">${r.streak.map(s=>`<span class="${s.type}" title="Матч #${s.id}"></span>`).join('')}</div></td>`:''}
-     ${cols.includes('exact')?`<td>${r.exact||'<span style="color:var(--mut)">—</span>'}</td>`:''}
-     <td class="pts">${r.points}</td></tr>`
+    `<tr>
+      <td><span class="${posClass(i)}">${i+1}</span></td>
+      <td><span class="nick clickable ${r.nick.startsWith('@')?'nick-tg':''}" data-nick="${esc(r.nick)}">${esc(r.nick)}</span></td>
+      ${cols.includes('count')?`<td>${r.count}</td>`:''}
+      ${cols.includes('streak')?`<td><div class="streak">${r.streak.map(s=>`<span class="${s.type}" title="Матч #${s.id}"></span>`).join('')}</div></td>`:''}
+      ${cols.includes('exact')?`<td>${r.exact||'<span style="color:var(--mut)">—</span>'}</td>`:''}
+      <td class="pts">${r.points}</td>
+    </tr>`
   ).join('') : `<tr><td colspan="6"><div class="empty">Нет данных</div></td></tr>`;
 
   $('#r-points').innerHTML = renderBody(sortP, ['count','streak']);
@@ -372,7 +441,7 @@ function render(state){
       }
 
       return `<tr class="${s && s.exact ? 'exact':''}">
-        <td><span class="nick ${p.nick.startsWith('@')?'nick-tg':''}">${esc(p.nick)}</span></td>
+        <td><span class="nick clickable ${p.nick.startsWith('@')?'nick-tg':''}" data-nick="${esc(p.nick)}">${esc(p.nick)}</span></td>
         <td><div class="team-cell">#${p.matchId} ${m?getLogo(m.opponent):''} ${m?esc(m.opponent):'—'}</div></td>
         <td><b style="color:var(--mountain)">${p.utah} : ${p.opp}</b></td>
         <td style="color:var(--mut)">${actual}</td>
@@ -384,6 +453,14 @@ function render(state){
   renderPreds('all');
   filterSel.onchange = (e) => renderPreds(e.target.value);
 }
+
+// Делегирование событий для клика по нику
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('nick') && e.target.classList.contains('clickable')) {
+    const nick = e.target.getAttribute('data-nick');
+    openUserModal(nick);
+  }
+});
 
 document.querySelectorAll('nav button').forEach(btn => {
   btn.addEventListener('click', () => {
