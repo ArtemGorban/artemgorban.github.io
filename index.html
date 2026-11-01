@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Уютная Юта — Рейтинг</title>
+<!-- Подключаем библиотеку для создания картинок -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{
     --navy:#0E1E3C; --mountain:#71C5E8; --gold:#C9A961;
@@ -28,21 +30,8 @@
   .tab.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
   
-  .banners-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
-    align-items: stretch;
-  }
-
-  .next-game{
-    background:linear-gradient(135deg, rgba(113,197,232,.15), rgba(14,30,60,.8));
-    border:1px solid var(--mountain); border-radius:12px; padding:20px;
-    display:flex; align-items:center; justify-content:space-between;
-    flex-wrap:wrap; gap:16px;
-    height: 100%;
-  }
+  .banners-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));gap: 16px;margin-bottom: 24px;align-items: stretch;}
+  .next-game{background:linear-gradient(135deg, rgba(113,197,232,.15), rgba(14,30,60,.8));border:1px solid var(--mountain); border-radius:12px; padding:20px;display:flex; align-items:center; justify-content:space-between;flex-wrap:wrap; gap:16px;height: 100%;}
   .ng-teams{display:flex;align-items:center;gap:16px}
   .ng-team{display:flex;align-items:center;gap:10px}
   .ng-team img{width:44px;height:44px}
@@ -50,17 +39,11 @@
   .ng-vs{color:var(--gold);font-weight:900;font-size:12px;letter-spacing:2px}
   .ng-info small{display:block;color:var(--mountain);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
   .ng-info span{color:var(--mut);font-size:13px}
-  
   .ng-countdown{background:var(--navy);padding:8px 14px;border-radius:8px;text-align:center;border:1px solid var(--line); min-width:130px;}
   .ng-countdown small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase;margin-bottom:2px}
   .ng-countdown b{font-size:15px;color:var(--gold);font-family:ui-monospace, Consolas, monospace; letter-spacing:0.5px;}
 
-  .leader-banner {
-    background: linear-gradient(135deg, rgba(201,169,97,.15), rgba(14,30,60,.8));
-    border: 1px solid var(--gold); border-radius: 12px; padding: 20px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    height: 100%;
-  }
+  .leader-banner {background: linear-gradient(135deg, rgba(201,169,97,.15), rgba(14,30,60,.8));border: 1px solid var(--gold); border-radius: 12px; padding: 20px;display: flex; align-items: center; justify-content: space-between; gap: 16px;height: 100%;}
   .leader-banner .ng-info small { color: var(--gold); }
   
   h2{font-size:20px;margin:24px 0 14px;font-weight:800;display:flex;align-items:center;gap:10px}
@@ -96,11 +79,7 @@
   .pos.silver{background:rgba(200,200,200,.15);color:#C8C8C8}
   .pos.bronze{background:rgba(200,140,80,.2);color:#C88C50}
   
-  .nick-btn {
-    background: transparent; border: 1px solid transparent; padding: 2px 4px; border-radius: 6px;
-    cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700; color: var(--txt);
-    display: inline-flex; align-items: center; gap: 4px; transition: .2s;
-  }
+  .nick-btn {background: transparent; border: 1px solid transparent; padding: 2px 4px; border-radius: 6px;cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700; color: var(--txt);display: inline-flex; align-items: center; gap: 4px; transition: .2s;}
   .nick-btn:hover { background: rgba(113,197,232,.15); border-color: var(--mountain); }
   .nick-btn.tg { color: var(--mountain); }
   .nick-btn .icon { font-size: 10px; opacity: .5; }
@@ -108,7 +87,6 @@
   
   .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:8px;background:rgba(6,14,31,.4);padding:6px 10px;border-radius:6px}
   .legend span{display:flex;align-items:center;gap:4px}
-  
   .streak{display:flex;gap:2px}
   .streak span{width:6px;height:6px;border-radius:50%;background:var(--mut);display:inline-block}
   .streak span.exact, .legend .dot.exact{background:var(--gold)}
@@ -124,7 +102,6 @@
   .empty{text-align:center;padding:40px 20px;color:var(--mut);font-style:italic}
   .loading{text-align:center;padding:40px;color:var(--mut)}
   .error{background:rgba(248,113,113,.1);border:1px solid var(--bad);color:var(--bad);padding:14px;border-radius:8px;margin-bottom:16px}
-  
   .team-cell{display:flex;align-items:center;gap:8px}
   .team-cell img{width:20px;height:20px}
 
@@ -141,6 +118,7 @@
   .modal-table th{position:sticky;top:0;background:var(--card);z-index:1;border-bottom:2px solid var(--line)}
   .modal-table td{padding:10px 20px}
   
+  /* Кнопка "Поделиться" */
   .share-btn {
     display: inline-flex; align-items: center; gap: 6px;
     background: rgba(113,197,232,.15); color: var(--mountain);
@@ -149,6 +127,38 @@
     transition: .2s; cursor: pointer; margin-right: 12px;
   }
   .share-btn:hover { background: var(--mountain); color: var(--navy); }
+  .share-btn:disabled { opacity: 0.5; cursor: wait; }
+
+  /* Скрытый блок для генерации картинки */
+  #share-card-container {
+    position: fixed; left: -9999px; top: 0;
+    width: 600px; /* Фиксированная ширина для картинки */
+  }
+  .share-card {
+    background: linear-gradient(135deg, #0E1E3C 0%, #060E1F 100%);
+    border: 2px solid var(--mountain);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    color: #E6EEF8;
+    position: relative;
+    overflow: hidden;
+  }
+  .share-card::before {
+    content: ''; position: absolute; top: -50px; left: -50px; width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(113,197,232,0.3), transparent 70%);
+  }
+  .share-card img.logo { width: 100px; height: 100px; margin-bottom: 20px; }
+  .share-card .title { font-size: 20px; letter-spacing: 2px; color: var(--mountain); text-transform: uppercase; font-weight: 800; margin-bottom: 30px; }
+  .share-card .nickname { font-size: 42px; font-weight: 900; color: var(--gold); margin-bottom: 20px; word-break: break-all; }
+  .share-card .rank { font-size: 72px; font-weight: 900; line-height: 1; margin-bottom: 10px; }
+  .share-card .rank span { font-size: 24px; color: var(--mut); font-weight: 700; }
+  .share-card .stats-grid { display: flex; justify-content: center; gap: 40px; margin-top: 40px; }
+  .share-card .stat-item { background: rgba(255,255,255,0.05); padding: 15px 25px; border-radius: 12px; }
+  .share-card .stat-item small { display: block; font-size: 14px; color: var(--mut); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+  .share-card .stat-item b { font-size: 28px; color: var(--mountain); }
+  .share-card .footer { margin-top: 40px; font-size: 14px; color: var(--mut); }
 </style>
 </head>
 <body>
@@ -287,14 +297,36 @@
   </div>
 </div>
 
+<!-- Скрытый блок для рендера картинки -->
+<div id="share-card-container">
+  <div class="share-card" id="share-card">
+    <img src="https://assets.nhle.com/logos/nhl/svg/UTA_light.svg" class="logo" crossorigin="anonymous">
+    <div class="title">Уютная Юта</div>
+    <div class="nickname" id="sc-nickname">@nickname</div>
+    <div class="rank" id="sc-rank">1 <span>место</span></div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <small>Очки</small>
+        <b id="sc-points">0</b>
+      </div>
+      <div class="stat-item">
+        <small>Точных</small>
+        <b id="sc-exact">0</b>
+      </div>
+    </div>
+    <div class="footer">artemgorban.github.io</div>
+  </div>
+</div>
+
 <div id="user-modal" class="modal-overlay" onclick="if(event.target===this) closeModal()">
   <div class="modal-content">
     <div class="modal-header">
       <h3 id="modal-title">Прогнозы</h3>
       <div style="display:flex; align-items:center;">
-        <a id="share-btn" class="share-btn" href="#" target="_blank" title="Поделиться в Telegram">
+        <!-- Изменили href на onclick -->
+        <button id="share-btn" class="share-btn" onclick="generateAndShare()">
           ✈️ Поделиться
-        </a>
+        </button>
         <button class="btn-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
       </div>
     </div>
@@ -310,27 +342,17 @@
 <script>
 const DATA_URL = 'data.json';
 const $ = (s, c=document) => c.querySelector(s);
-
 let appState = null;
 let countdownInterval = null;
+let currentShareNickname = '';
 
-const TEAM_ABBR = {
-  'Юта': 'UTA', 'Питтсбург': 'PIT', 'Сиэтл Кракен': 'SEA', 'Тампа': 'TBL', 'Миннесота': 'MIN',
-  'Филадельфия': 'PHI', 'Торонто': 'TOR', 'Монреаль': 'MTL', 'Оттава': 'OTT',
-  'Вегас': 'VGK', 'Сент-Луис': 'STL', 'Сан-Хосе': 'SJS', 'Ванкувер': 'VAN',
-  'Колорадо': 'COL', 'Анахайм': 'ANA', 'Виннипег': 'WPG', 'Нэшвилл': 'NSH',
-  'Даллас': 'DAL', 'Лос-Анджелес': 'LAK', 'Чикаго': 'CHI', 'Нью-Йорк Айлендерс': 'NYI',
-  'Каролина': 'CAR', 'Эдмонтон': 'EDM', 'Нью-Джерси': 'NJD', 'Детройт': 'DET',
-  'Бостон': 'BOS', 'Баффало': 'BUF', 'Вашингтон': 'WSH', 'Калгари': 'CGY',
-  'Коламбус': 'CBJ', 'Флорида': 'FLA', 'Нью-Йорк Рейнджерс': 'NYR'
-};
+const TEAM_ABBR = {'Юта': 'UTA', 'Питтсбург': 'PIT', 'Сиэтл Кракен': 'SEA', 'Тампа': 'TBL', 'Миннесота': 'MIN','Филадельфия': 'PHI', 'Торонто': 'TOR', 'Монреаль': 'MTL', 'Оттава': 'OTT','Вегас': 'VGK', 'Сент-Луис': 'STL', 'Сан-Хосе': 'SJS', 'Ванкувер': 'VAN','Колорадо': 'COL', 'Анахайм': 'ANA', 'Виннипег': 'WPG', 'Нэшвилл': 'NSH','Даллас': 'DAL', 'Лос-Анджелес': 'LAK', 'Чикаго': 'CHI', 'Нью-Йорк Айлендерс': 'NYI','Каролина': 'CAR', 'Эдмонтон': 'EDM', 'Нью-Джерси': 'NJD', 'Детройт': 'DET','Бостон': 'BOS', 'Баффало': 'BUF', 'Вашингтон': 'WSH', 'Калгари': 'CGY','Коламбус': 'CBJ', 'Флорида': 'FLA', 'Нью-Йорк Рейнджерс': 'NYR'};
 
 function getLogo(teamName, size = 20) {
   const abbr = TEAM_ABBR[teamName];
   if (abbr) return `<img src="https://assets.nhle.com/logos/nhl/svg/${abbr}_light.svg" width="${size}" height="${size}" alt="${esc(teamName)}" onerror="this.style.display='none'">`;
   return '';
 }
-
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function fmtDate(d){try{return new Date(d+'T12:00:00Z').toLocaleDateString('ru-RU',{day:'2-digit',month:'short'});}catch{return d;}}
 function isPlayed(m){return m && m.utah != null && m.opp != null && m.utah !== '' && m.opp !== '';}
@@ -377,21 +399,17 @@ function startCountdown(matchDateStr, matchTimeStr) {
     const distance = targetDate - now;
     const timerEl = document.getElementById('countdown-timer');
     if (!timerEl) return;
-
     if (distance < 0) {
       timerEl.innerHTML = "Матч начался!";
       clearInterval(countdownInterval);
       return;
     }
-
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
     timerEl.innerHTML = `${days > 0 ? days + 'д ' : ''}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
-  
   updateTimer();
   countdownInterval = setInterval(updateTimer, 1000);
 }
@@ -399,15 +417,9 @@ function startCountdown(matchDateStr, matchTimeStr) {
 function renderNextGame(state){
   const next = state.matches.find(m=>!isPlayed(m));
   const box = $('#next-game-box');
-  if(!next) { 
-    box.innerHTML = ''; 
-    if (countdownInterval) clearInterval(countdownInterval);
-    return; 
-  }
-  
+  if(!next) { box.innerHTML = ''; if (countdownInterval) clearInterval(countdownInterval); return; }
   const isHome = next.venue === 'Дома';
   const displayTime = next.time ? next.time : '00:00';
-  
   box.innerHTML = `
     <div class="next-game">
       <div>
@@ -427,29 +439,20 @@ function renderNextGame(state){
       </div>
     </div>
   `;
-  
   startCountdown(next.date, next.time);
 }
 
 function renderLeader(state) {
   const box = $('#leader-box');
   const list = buildRating(state);
-  
-  if (!list.length) { 
-    box.innerHTML = `<div class="leader-banner"><div class="ng-info"><small>Лидер</small><b>Нет данных</b></div></div>`; 
-    return; 
-  }
-
+  if (!list.length) { box.innerHTML = `<div class="leader-banner"><div class="ng-info"><small>Лидер</small><b>Нет данных</b></div></div>`; return; }
   const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
   const leader = sortP[0];
   const title = leader.points > 0 ? "Лидер прогнозов" : "Первый в таблице";
-
   box.innerHTML = `
     <div class="leader-banner">
       <div>
-        <div class="ng-info">
-          <small>${title}</small>
-        </div>
+        <div class="ng-info"><small>${title}</small></div>
         <div style="display:flex; align-items:center; gap:8px; margin-top:8px;">
           <span style="font-size:28px; line-height:1;">🏆</span>
           <b style="font-size:20px; color:var(--gold)">${esc(leader.nick)}</b>
@@ -466,24 +469,86 @@ function renderLeader(state) {
   `;
 }
 
+// ФУНКЦИЯ ГЕНЕРАЦИИ И ОТПРАВКИ КАРТИНКИ
+async function generateAndShare() {
+  const btn = $('#share-btn');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '⏳ Генерация...';
+  btn.disabled = true;
+
+  // Заполняем скрытую карточку данными
+  const list = buildRating(appState);
+  const userStats = list.find(u => u.nick === currentShareNickname);
+  const points = userStats ? userStats.points : 0;
+  const exact = userStats ? userStats.exact : 0;
+  
+  const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
+  const rank = sortP.findIndex(u => u.nick === currentShareNickname) + 1;
+
+  $('#sc-nickname').textContent = currentShareNickname;
+  $('#sc-points').textContent = points;
+  $('#sc-exact').textContent = exact;
+  
+  // Красивое отображение места (с медальками для топ-3)
+  let rankHtml = `${rank} <span>место</span>`;
+  if (rank === 1) rankHtml = `🥇 <span>1 место</span>`;
+  if (rank === 2) rankHtml = `🥈 <span>2 место</span>`;
+  if (rank === 3) rankHtml = `🥉 <span>3 место</span>`;
+  $('#sc-rank').innerHTML = rankHtml;
+
+  try {
+    // Рендерим картинку
+    const canvas = await html2canvas(document.getElementById('share-card'), {
+      scale: 2, // Увеличенный масштаб для четкости
+      useCORS: true,
+      backgroundColor: '#0E1E3C'
+    });
+
+    // Конвертируем в Blob (файл)
+    canvas.toBlob(async (blob) => {
+      const file = new File([blob], `utah-rating-${currentShareNickname.replace('@','')}.png`, { type: 'image/png' });
+      
+      // Проверяем поддержку Web Share API (работает на телефонах)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: 'Мои прогнозы в Уютной Юте',
+            text: `Я на ${rank} месте с ${points} очками!`
+          });
+        } catch (err) {
+          console.log('Пользователь отменил отправку или произошла ошибка:', err);
+        }
+      } else {
+        // Если это компьютер — просто скачиваем картинку
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `utah-rating-${currentShareNickname.replace('@','')}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+        alert('Картинка скачана! Вы можете отправить её другу в Telegram или выложить в сторис.');
+      }
+      
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }, 'image/png');
+  } catch (err) {
+    console.error('Ошибка генерации:', err);
+    alert('Не удалось создать картинку. Попробуйте еще раз.');
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }
+}
+
 window.openUserModal = function(nickname) {
   if (!appState) return;
+  currentShareNickname = nickname; // Сохраняем текущий ник для кнопки "Поделиться"
+  
   const preds = appState.predictions.filter(p => p.nick === nickname);
   preds.sort((a,b) => Number(a.matchId) - Number(b.matchId));
 
   $('#modal-title').innerHTML = `История: <span style="color:var(--mountain)">${esc(nickname)}</span>`;
-  
-  // Динамическая кнопка "Поделиться"
-  const list = buildRating(appState);
-  const userStats = list.find(u => u.nick === nickname);
-  const points = userStats ? userStats.points : 0;
-  
-  const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
-  const rank = sortP.findIndex(u => u.nick === nickname) + 1;
-
-  const shareText = `Я на ${rank} месте в конкурсе "Уютная Юта" с ${points} очками! Смотри мой рейтинг и историю: ${nickname}`;
-  const url = encodeURIComponent(window.location.href);
-  $('#share-btn').href = `https://t.me/share/url?url=${url}&text=${encodeURIComponent(shareText)}`;
 
   if (!preds.length) {
     $('#modal-body-table').innerHTML = `<tr><td colspan="5"><div class="empty">Нет прогнозов</div></td></tr>`;
