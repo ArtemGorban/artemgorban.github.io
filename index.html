@@ -6,53 +6,63 @@
 <title>Уютная Юта — Рейтинг</title>
 <style>
   /* =========================================
-     ПЕРЕМЕННЫЕ (ТЕМНАЯ ТЕМА ПО УМОЛЧАНИЮ)
+     ПЕРЕМЕННЫЕ (ТЕМНАЯ ТЕМА - СТЕКЛО)
      ========================================= */
   :root {
     --navy: #0E1E3C; 
     --mountain: #71C5E8; 
     --gold: #C9A961;
     --bg: #060E1F; 
-    --card: #0F1E38; 
-    --line: #1E3358; 
     --txt: #E6EEF8; 
     --mut: #8FA6C6;
     --ok: #4ADE80; 
     --bad: #F87171; 
     --warn: #FBBF24;
     
-    --header-bg: rgba(6,14,31,.94);
-    --hover-bg: rgba(113,197,232,.04);
-    --next-game-bg: linear-gradient(135deg, rgba(113,197,232,.15), rgba(14,30,60,.8));
-    --leader-bg: linear-gradient(135deg, rgba(201,169,97,.1), rgba(14,30,60,.8));
+    --card: rgba(15, 30, 56, 0.65);
+    --line: rgba(255, 255, 255, 0.08);
+    --hover-bg: rgba(255, 255, 255, 0.06);
+    --header-bg: rgba(6, 14, 31, 0.7);
+    --shadow: rgba(0, 0, 0, 0.4);
+    
+    --glow-1: rgba(113, 197, 232, 0.15);
+    --glow-2: rgba(201, 169, 97, 0.1);
   }
 
   /* =========================================
-     СВЕТЛАЯ ТЕМА
+     СВЕТЛАЯ ТЕМА - СТЕКЛО
      ========================================= */
   [data-theme="light"] {
     --navy: #0E1E3C; 
     --mountain: #1E88E5; 
     --gold: #B8860B; 
     --bg: #F0F4F8; 
-    --card: #FFFFFF; 
-    --line: #D1D9E6; 
     --txt: #0E1E3C; 
     --mut: #64748B;
     --ok: #10B981; 
     --bad: #EF4444; 
     --warn: #F59E0B;
 
-    --header-bg: rgba(255,255,255,.94);
-    --hover-bg: rgba(0,0,0,.03);
-    --next-game-bg: linear-gradient(135deg, rgba(30,136,229,.08), rgba(255,255,255,1));
-    --leader-bg: linear-gradient(135deg, rgba(184,134,11,.08), rgba(255,255,255,1));
+    --card: rgba(255, 255, 255, 0.7);
+    --line: rgba(0, 0, 0, 0.08);
+    --hover-bg: rgba(0, 0, 0, 0.04);
+    --header-bg: rgba(255, 255, 255, 0.8);
+    --shadow: rgba(0, 0, 0, 0.05);
+    
+    --glow-1: rgba(30, 136, 229, 0.1);
+    --glow-2: rgba(184, 134, 11, 0.08);
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
+  
   body{
     font-family:'Segoe UI',system-ui,sans-serif;
-    background:var(--bg);
+    background-color: var(--bg);
+    background-image: 
+      radial-gradient(circle at 15% 10%, var(--glow-1) 0%, transparent 40%),
+      radial-gradient(circle at 85% 60%, var(--glow-2) 0%, transparent 40%),
+      radial-gradient(circle at 50% 90%, var(--glow-1) 0%, transparent 40%);
+    background-attachment: fixed;
     color:var(--txt);
     line-height:1.5;
     min-height:100vh;
@@ -63,11 +73,15 @@
   
   header{
     display:flex;align-items:center;justify-content:space-between;gap:12px;
-    margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);
+    margin-bottom:24px;padding:16px 20px;border-radius:16px;
     flex-wrap:wrap;
     background:var(--header-bg);
-    position:sticky; top:0; z-index:50;
-    padding-top:16px; margin-top:-20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 30px var(--shadow);
+    position:sticky; top:10px; z-index:50;
+    transition: background .3s, border-color .3s;
   }
   .brand{display:flex;align-items:center;gap:12px}
   .brand img{width:44px;height:44px}
@@ -76,23 +90,24 @@
   
   nav{display:flex;gap:8px;flex-wrap:wrap; align-items:center;}
   nav button{
-    background:transparent;border:1px solid transparent;padding:6px 14px;border-radius:8px;
+    background:transparent;border:1px solid transparent;padding:8px 16px;border-radius:8px;
     cursor:pointer;font-size:13px;font-weight:600;color:var(--mut);transition:.2s;
   }
   nav button:hover{color:var(--txt);background:var(--hover-bg)}
-  nav button.active{background:var(--mountain);color:var(--navy);border-color:var(--mountain)}
+  nav button.active{background:var(--mountain);color:var(--navy);border-color:var(--mountain); box-shadow: 0 4px 15px rgba(113, 197, 232, 0.3);}
   
   .theme-btn {
-    background:var(--card); border:1px solid var(--line); color:var(--txt);
-    width:36px; height:36px; border-radius:50%; cursor:pointer;
+    background:var(--hover-bg); border:1px solid var(--line); color:var(--txt);
+    width:38px; height:38px; border-radius:50%; cursor:pointer;
     font-size:16px; display:flex; align-items:center; justify-content:center;
     transition:.2s; margin-left:8px;
+    backdrop-filter: blur(4px);
   }
   .theme-btn:hover { border-color:var(--mountain); transform:scale(1.05); }
 
-  .tab{display:none;animation:fade .2s}
+  .tab{display:none;animation:fade .3s}
   .tab.active{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   
   .banners-grid {
     display: grid;
@@ -102,11 +117,19 @@
     align-items: stretch;
   }
 
+  .next-game, .leader-banner, .table-wrap, .stat, .rating-block h4, .modal-content {
+    background: var(--card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--line);
+    box-shadow: 0 8px 32px var(--shadow);
+    transition: background .3s, border-color .3s;
+  }
+
   .next-game{
-    background:var(--next-game-bg);
-    border:1px solid var(--mountain); border-radius:12px; padding:20px;
+    border-radius:16px; padding:20px;
     display:flex; align-items:center; justify-content:space-between;
-    flex-wrap:wrap; gap:16px; height: 100%; transition: background .3s;
+    flex-wrap:wrap; gap:16px; height: 100%;
   }
   .ng-teams{display:flex;align-items:center;gap:16px}
   .ng-team{display:flex;align-items:center;gap:10px}
@@ -115,19 +138,18 @@
   .ng-vs{color:var(--gold);font-weight:900;font-size:12px;letter-spacing:2px}
   .ng-info small{display:block;color:var(--mountain);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
   .ng-info span{color:var(--mut);font-size:13px}
-  .ng-countdown{background:var(--bg);padding:8px 14px;border-radius:8px;text-align:center;border:1px solid var(--line); min-width:130px;}
+  .ng-countdown{background:var(--hover-bg);padding:10px 16px;border-radius:12px;text-align:center;border:1px solid var(--line); min-width:130px;}
   .ng-countdown small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase;margin-bottom:2px}
-  .ng-countdown b{font-size:15px;color:var(--gold);font-family:ui-monospace, Consolas, monospace; letter-spacing:0.5px;}
+  .ng-countdown b{font-size:16px;color:var(--gold);font-family:ui-monospace, Consolas, monospace; letter-spacing:0.5px;}
 
-  /* Плашка лидера (Подиум) */
   .leader-banner {
-    background: var(--leader-bg);
-    border: 1px solid var(--gold); border-radius: 12px; padding: 20px 20px 0 20px;
-    display: flex; flex-direction: column; height: 100%; transition: background .3s;
+    border-radius:16px; padding:20px 20px 0 20px;
+    display: flex; flex-direction: column; height: 100%;
     position: relative;
+    border-top: 2px solid var(--gold);
   }
   .leader-banner .ng-info { text-align: center; margin-bottom: 10px; }
-  .leader-banner .ng-info small { color: var(--gold); }
+  .leader-banner .ng-info small { color: var(--gold); font-size: 12px; letter-spacing: 2px;}
 
   .podium {
     display: flex; align-items: flex-end; justify-content: center; gap: 8px;
@@ -139,7 +161,6 @@
   }
   .podium-item:hover { transform: translateY(-3px); }
   
-  /* Увеличенная ширина и перенос слов для ников */
   .p-nick {
     font-size: 13px; font-weight: 700; color: var(--txt);
     margin-bottom: 2px; width: 100px; 
@@ -160,25 +181,26 @@
   .pos-2 .p-block { height: 60px; background: linear-gradient(to bottom, #E0E0E0, #9E9E9E); color: #000; }
   .pos-3 .p-block { height: 50px; background: linear-gradient(to bottom, #D98C5A, #A0522D); color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.4);}
   
-  h2{font-size:20px;margin:24px 0 14px;font-weight:800;display:flex;align-items:center;gap:10px}
+  h2{font-size:20px;margin:24px 0 14px;font-weight:800;display:flex;align-items:center;gap:10px; padding-left:4px;}
   h2 small{font-size:12px;color:var(--mut);font-weight:400}
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px; transition: background .3s;}
-  .stat small{display:block;color:var(--mut);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
-  .stat b{font-size:22px;color:var(--mountain);font-weight:800}
+  .stat{border-radius:12px;padding:14px 18px;}
+  .stat small{display:block;color:var(--mut);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+  .stat b{font-size:24px;color:var(--mountain);font-weight:800}
   
-  .table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:20px; transition: background .3s;}
+  .table-wrap{overflow-x:auto;border-radius:16px;margin-bottom:20px;}
   table{width:100%;border-collapse:collapse;font-size:13px}
-  th{text-align:left;padding:10px 8px;font-size:10px;letter-spacing:0.5px;color:var(--mut);text-transform:uppercase;border-bottom:1px solid var(--line);font-weight:700;background:var(--hover-bg);white-space:nowrap}
-  td{padding:9px 8px;border-bottom:1px solid var(--line)}
+  th{text-align:left;padding:12px 10px;font-size:10px;letter-spacing:1px;color:var(--mut);text-transform:uppercase;border-bottom:1px solid var(--line);font-weight:700;background:rgba(0,0,0,0.1);white-space:nowrap}
+  [data-theme="light"] th { background: rgba(0,0,0,0.02); }
+  td{padding:10px;border-bottom:1px solid var(--line)}
   tr:hover td{background:var(--hover-bg)}
   tr.played td{background:rgba(74,222,128,.05)}
-  tr.exact td{background:rgba(201,169,97,.1)}
+  tr.exact td{background:rgba(201,169,97,.08)}
   
   .standings-table th { text-align: center; }
   .standings-table td { text-align: center; }
   .standings-table td:nth-child(2) { text-align: left; }
-  .standings-table tr.uta-row td { background: rgba(113,197,232,.1); font-weight: 700; }
+  .standings-table tr.uta-row td { background: rgba(113,197,232,.1); font-weight: 700; border-left: 3px solid var(--mountain); }
   .standings-table tr.uta-row td:first-child { color: var(--mountain); }
   
   .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
@@ -187,59 +209,72 @@
   .badge.exact{background:rgba(201,169,97,.2);color:var(--gold)}
   .badge.bad{background:rgba(248,113,113,.15);color:var(--bad)}
   
-  .pts{font-weight:800;color:var(--mountain)}
-  .pos{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:rgba(113,197,232,.1);color:var(--mountain);font-weight:800;font-size:12px}
+  .pts{font-weight:800;color:var(--mountain);font-size:14px;}
+  .pos{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(113,197,232,.1);color:var(--mountain);font-weight:800;font-size:12px}
   .pos.gold{background:rgba(201,169,97,.2);color:var(--gold)}
   .pos.silver{background:rgba(200,200,200,.2);color:#888}
   .pos.bronze{background:rgba(200,140,80,.2);color:#A0522D}
   
-  .nick-btn {background: transparent; border: 1px solid transparent; padding: 2px 4px; border-radius: 6px;cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700; color: var(--txt);display: inline-flex; align-items: center; gap: 6px; transition: .2s;}
-  .nick-btn:hover { background: var(--hover-bg); border-color: var(--mountain); }
+  /* Стили для кнопки-ника в таблице (ИСПРАВЛЕНО) */
+  .nick-btn {
+    background: transparent; border: 1px solid transparent; padding: 4px 6px; border-radius: 8px;
+    cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--txt);
+    display: inline-flex; align-items: center; gap: 6px; transition: .2s;
+    max-width: 100%; text-align: left;
+  }
+  .nick-btn:hover { background: var(--hover-bg); border-color: var(--line); }
   .nick-btn.tg { color: var(--mountain); }
-  .nick-btn .icon { font-size: 10px; opacity: .5; }
-  .nick-btn:hover .icon { opacity: 1; }
-
-  /* Стили для бейджей (ачивок) */
-  .user-badges { display: inline-flex; gap: 4px; align-items: center; }
-  .badge-icon { font-size: 14px; cursor: help; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); }
   
-  .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:8px;background:var(--hover-bg);padding:6px 10px;border-radius:6px}
+  /* Обрезка длинного текста */
+  .nick-text {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 110px; 
+  }
+
+  .user-badges { display: inline-flex; gap: 2px; align-items: center; flex-shrink: 0; }
+  .badge-icon { font-size: 12px; cursor: help; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+  
+  .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:12px;background:var(--card);padding:8px 14px;border-radius:8px; backdrop-filter: blur(10px); border:1px solid var(--line);}
   .legend span{display:flex;align-items:center;gap:4px}
   .streak{display:flex;gap:2px}
   .streak span{width:6px;height:6px;border-radius:50%;background:var(--mut);display:inline-block}
-  .streak span.exact, .legend .dot.exact{background:var(--gold)}
-  .streak span.diff, .legend .dot.diff{background:var(--mountain)}
-  .streak span.win, .legend .dot.win{background:var(--ok)}
-  .streak span.loss, .legend .dot.loss{background:var(--bad)}
+  .streak span.exact, .legend .dot.exact{background:var(--gold); box-shadow:0 0 4px var(--gold);}
+  .streak span.diff, .legend .dot.diff{background:var(--mountain); box-shadow:0 0 4px var(--mountain);}
+  .streak span.win, .legend .dot.win{background:var(--ok);}
+  .streak span.loss, .legend .dot.loss{background:var(--bad);}
   .legend .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
 
-  .rating-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
-  .rating-block h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-  .rating-table th, .rating-table td{padding:6px 4px;font-size:12px}
+  /* Уменьшили минимальную ширину колонки и внутренние отступы */
+  .rating-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .rating-block h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:12px;padding:10px 14px;border-radius:10px; text-align:center;}
+  
+  /* Специальные отступы для таблиц рейтинга, чтобы не было скролла */
+  .rating-table th, .rating-table td{padding:8px 2px;font-size:12px}
   
   .empty{text-align:center;padding:40px 20px;color:var(--mut);font-style:italic}
   .loading{text-align:center;padding:40px;color:var(--mut)}
-  .error{background:rgba(248,113,113,.1);border:1px solid var(--bad);color:var(--bad);padding:14px;border-radius:8px;margin-bottom:16px}
+  .error{background:rgba(248,113,113,.1);border:1px solid var(--bad);color:var(--bad);padding:14px;border-radius:8px;margin-bottom:16px; backdrop-filter: blur(10px);}
   .team-cell{display:flex;align-items:center;gap:8px}
-  .team-cell img{width:20px;height:20px}
+  .team-cell img{width:22px;height:22px}
 
-  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:.3s}
+  /* Модалка */
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:.3s}
   .modal-overlay.active{opacity:1;pointer-events:auto}
-  .modal-content{background:var(--card);border:1px solid var(--mountain);border-radius:12px;width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(20px);transition:.3s;box-shadow:0 20px 40px rgba(0,0,0,.5)}
+  .modal-content{border-radius:16px;width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(20px);transition:.3s; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-top: 2px solid var(--mountain);}
   .modal-overlay.active .modal-content{transform:translateY(0)}
-  .modal-header{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--hover-bg);border-radius:12px 12px 0 0}
+  
+  .modal-header{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:rgba(0,0,0,0.1);border-radius:16px 16px 0 0}
   .modal-title-area h3{font-size:18px;color:var(--gold);margin:0 0 6px 0;display:flex;align-items:center;gap:10px}
   
-  /* Бейджи в модальном окне */
   .modal-badges { display: flex; gap: 6px; flex-wrap: wrap; }
-  .modal-badge { background: var(--bg); border: 1px solid var(--line); padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+  .modal-badge { background: var(--hover-bg); border: 1px solid var(--line); padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
   
   .btn-close{background:transparent;border:none;color:var(--mut);font-size:24px;cursor:pointer;line-height:1;transition:.2s; margin-left: 10px;}
   .btn-close:hover{color:var(--bad)}
-  .modal-body{padding:0;overflow-y:auto;border-radius:0 0 12px 12px}
+  .modal-body{padding:0;overflow-y:auto;border-radius:0 0 16px 16px}
   .modal-table{width:100%;font-size:13px;margin:0}
-  .modal-table th{position:sticky;top:0;background:var(--card);z-index:1;border-bottom:2px solid var(--line)}
-  .modal-table td{padding:10px 20px}
+  .modal-table th{position:sticky;top:0;background:var(--bg);z-index:1;border-bottom:2px solid var(--line)}
+  .modal-table td{padding:12px 20px}
 </style>
 </head>
 <body>
@@ -275,16 +310,16 @@
 
       <h2>Рейтинг <small>по очкам</small></h2>
       <div class="legend">
-        <span>Форма (последние 5 матчей):</span>
+        <span>Форма:</span>
         <span><span class="dot exact"></span> точный</span>
         <span><span class="dot diff"></span> разница</span>
         <span><span class="dot win"></span> победитель</span>
         <span><span class="dot loss"></span> промах</span>
         <span style="margin-left:10px; border-left:1px solid var(--line); padding-left:10px;">
-          <span class="badge-icon">👑</span> Лидер
-          <span class="badge-icon">🎯</span> Снайпер
-          <span class="badge-icon">🔥</span> В ударе
-          <span class="badge-icon">🐣</span> Новичок
+          <span class="badge-icon" title="Лидер">👑</span>
+          <span class="badge-icon" title="Снайпер">🎯</span>
+          <span class="badge-icon" title="В ударе">🔥</span>
+          <span class="badge-icon" title="Новичок">🐣</span>
         </span>
       </div>
       <div class="rating-grid">
@@ -331,8 +366,8 @@
 
     <section id="tab-standings" class="tab">
       <h2>Турнирная таблица <small>Центральный дивизион</small></h2>
-      <p style="color:var(--mut); font-size:13px; margin-bottom:14px;">Сезон 2026/27 · Выделена строка Utah Mammoth</p>
-      <div class="table-wrap">
+      <div class="table-wrap" style="padding: 10px;">
+        <p style="color:var(--mut); font-size:13px; margin-bottom:14px; padding: 0 10px;">Сезон 2026/27 · Выделена строка Utah Mammoth</p>
         <table class="standings-table">
           <thead>
             <tr>
@@ -411,7 +446,6 @@ const $ = (s, c=document) => c.querySelector(s);
 let appState = null;
 let countdownInterval = null;
 
-// === СМЕНА ТЕМЫ ===
 function initTheme() {
   const savedTheme = localStorage.getItem('utah_theme');
   if (savedTheme === 'light') {
@@ -476,14 +510,12 @@ function buildRating(state){
   return Object.values(map);
 }
 
-// === ФУНКЦИЯ ОПРЕДЕЛЕНИЯ БЕЙДЖЕЙ ===
 function getBadges(r, rank) {
   let badges = [];
   if (rank === 1) badges.push({ icon: '👑', title: 'Лидер' });
-  if (r.count < 3) badges.push({ icon: '🐣', title: 'Новичок (меньше 3 прогнозов)' });
-  if (r.exact >= 3) badges.push({ icon: '🎯', title: 'Снайпер (3+ точных счета)' });
+  if (r.count < 3) badges.push({ icon: '🐣', title: 'Новичок' });
+  if (r.exact >= 3) badges.push({ icon: '🎯', title: 'Снайпер' });
   
-  // Проверка на "В ударе" (3 подряд результативных матча)
   let currentStreak = 0;
   let maxStreak = 0;
   for (let s of r.streak) {
@@ -494,7 +526,7 @@ function getBadges(r, rank) {
       currentStreak = 0;
     }
   }
-  if (maxStreak >= 3) badges.push({ icon: '🔥', title: 'В ударе (3+ матча подряд с очками)' });
+  if (maxStreak >= 3) badges.push({ icon: '🔥', title: 'В ударе' });
   
   return badges;
 }
@@ -554,7 +586,6 @@ function renderNextGame(state){
   startCountdown(next.date, next.time);
 }
 
-// РЕНДЕР ПОДИУМА
 function renderLeader(state) {
   const box = $('#leader-box');
   const list = buildRating(state);
@@ -617,7 +648,6 @@ window.openUserModal = function(nickname) {
   const preds = appState.predictions.filter(p => p.nick === nickname);
   preds.sort((a,b) => Number(a.matchId) - Number(b.matchId));
 
-  // Получаем статистику и бейджи для модалки
   const list = buildRating(appState);
   const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
   const rank = sortP.findIndex(u => u.nick === nickname) + 1;
@@ -626,7 +656,7 @@ window.openUserModal = function(nickname) {
   let badgesHtml = '';
   if (userStats) {
     const badges = getBadges(userStats, rank);
-    badgesHtml = badges.map(b => `<div class="modal-badge">${b.icon} ${b.title.split(' (')[0]}</div>`).join('');
+    badgesHtml = badges.map(b => `<div class="modal-badge">${b.icon} ${b.title}</div>`).join('');
   }
 
   $('#modal-title').innerHTML = `История: <span style="color:var(--mountain)">${esc(nickname)}</span>`;
@@ -673,7 +703,7 @@ function render(state){
   const sortC = [...list].sort((a,b)=>b.count-a.count||b.points-a.points||a.nick.localeCompare(b.nick));
   const sortE = [...list].sort((a,b)=>b.exact-a.exact||b.points-a.points||a.nick.localeCompare(b.nick));
 
-  // Отрисовка строк с бейджами
+  // Отрисовка строк с бейджами и обрезкой текста
   const renderBody = (arr, cols) => arr.length ? arr.map((r,i)=>{
     const rank = i + 1;
     const badges = getBadges(r, rank);
@@ -683,7 +713,7 @@ function render(state){
       <td><span class="${posClass(i)}">${rank}</span></td>
       <td>
         <button class="nick-btn ${r.nick.startsWith('@')?'tg':''}" onclick="openUserModal('${esc(r.nick)}')" title="Показать все прогнозы">
-          ${esc(r.nick)} ${badgeHtml} <span class="icon">🔍</span>
+          <span class="nick-text">${esc(r.nick)}</span> ${badgeHtml}
         </button>
       </td>
       ${cols.includes('count')?`<td>${r.count}</td>`:''}
