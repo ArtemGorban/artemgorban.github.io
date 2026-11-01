@@ -14,7 +14,6 @@
   body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,#040A17 0%,#0A1530 100%);color:var(--txt);line-height:1.5;min-height:100vh;padding:20px}
   .wrap{max-width:1200px;margin:0 auto}
   
-  /* Header & Nav */
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:12px}
   .brand img{width:44px;height:44px}
@@ -29,25 +28,43 @@
   .tab.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
   
-  /* Next Game Banner */
+  /* Сетка для двух баннеров (выравнивание по высоте) */
+  .banners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: stretch; /* Заставляет элементы быть одинаковой высоты */
+  }
+
+  /* Плашка следующего матча */
   .next-game{
     background:linear-gradient(135deg, rgba(113,197,232,.15), rgba(14,30,60,.8));
     border:1px solid var(--mountain); border-radius:12px; padding:20px;
-    display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;
+    display:flex; align-items:center; justify-content:space-between;
     flex-wrap:wrap; gap:16px;
+    height: 100%; /* Растягивается на всю высоту */
   }
   .ng-teams{display:flex;align-items:center;gap:16px}
   .ng-team{display:flex;align-items:center;gap:10px}
-  .ng-team img{width:48px;height:48px}
-  .ng-team b{font-size:16px}
-  .ng-vs{color:var(--gold);font-weight:900;font-size:14px;letter-spacing:2px}
+  .ng-team img{width:44px;height:44px}
+  .ng-team b{font-size:15px}
+  .ng-vs{color:var(--gold);font-weight:900;font-size:12px;letter-spacing:2px}
   .ng-info small{display:block;color:var(--mountain);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
-  .ng-info span{color:var(--mut);font-size:14px}
-  .ng-countdown{background:var(--navy);padding:8px 16px;border-radius:8px;text-align:center;border:1px solid var(--line)}
+  .ng-info span{color:var(--mut);font-size:13px}
+  .ng-countdown{background:var(--navy);padding:8px 14px;border-radius:8px;text-align:center;border:1px solid var(--line); min-width:110px;}
   .ng-countdown small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase}
-  .ng-countdown b{font-size:18px;color:var(--gold)}
+  .ng-countdown b{font-size:16px;color:var(--gold)}
 
-  /* Stats & Tables */
+  /* Плашка лидера */
+  .leader-banner {
+    background: linear-gradient(135deg, rgba(201,169,97,.15), rgba(14,30,60,.8));
+    border: 1px solid var(--gold); border-radius: 12px; padding: 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    height: 100%; /* Растягивается на всю высоту */
+  }
+  .leader-banner .ng-info small { color: var(--gold); }
+  
   h2{font-size:20px;margin:24px 0 14px;font-weight:800;display:flex;align-items:center;gap:10px}
   h2 small{font-size:12px;color:var(--mut);font-weight:400}
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
@@ -75,43 +92,47 @@
   .pos.silver{background:rgba(200,200,200,.15);color:#C8C8C8}
   .pos.bronze{background:rgba(200,140,80,.2);color:#C88C50}
   
-  .nick{font-weight:700;font-size:13px;transition:.2s}
-  .nick-tg{color:var(--mountain)}
-  /* Стили для кликабельного ника */
-  .nick.clickable{cursor:pointer;border-bottom:1px dashed transparent;padding:2px 0;display:inline-block}
-  .nick.clickable:hover{color:var(--gold);border-bottom-color:var(--gold)}
+  /* Ник в виде кнопки */
+  .nick-btn {
+    background: transparent; border: 1px solid transparent; padding: 2px 4px; border-radius: 6px;
+    cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700; color: var(--txt);
+    display: inline-flex; align-items: center; gap: 4px; transition: .2s;
+  }
+  .nick-btn:hover { background: rgba(113,197,232,.15); border-color: var(--mountain); }
+  .nick-btn.tg { color: var(--mountain); }
+  .nick-btn .icon { font-size: 10px; opacity: .5; }
+  .nick-btn:hover .icon { opacity: 1; }
   
-  /* Легенда для формы */
   .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:8px;background:rgba(6,14,31,.4);padding:6px 10px;border-radius:6px}
   .legend span{display:flex;align-items:center;gap:4px}
   
-  /* Streak (Форма) */
-  .streak{display:flex;gap:3px}
-  .streak span{width:8px;height:8px;border-radius:50%;background:var(--mut);display:inline-block}
+  /* Уменьшили размер точек и отступы, чтобы не было скролла */
+  .streak{display:flex;gap:2px}
+  .streak span{width:6px;height:6px;border-radius:50%;background:var(--mut);display:inline-block}
   .streak span.exact, .legend .dot.exact{background:var(--gold)}
   .streak span.diff, .legend .dot.diff{background:var(--mountain)}
   .streak span.win, .legend .dot.win{background:var(--ok)}
   .streak span.loss, .legend .dot.loss{background:var(--bad)}
-  
-  .legend .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .legend .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
 
-  .rating-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  /* Увеличили минимальную ширину колонок с 280 до 320 */
+  .rating-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
   .rating-block h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-  .rating-table th, .rating-table td{padding:8px 6px;font-size:12px}
+  
+  /* Уменьшили паддинги в таблицах рейтинга, чтобы убрать скролл */
+  .rating-table th, .rating-table td{padding:6px 4px;font-size:12px}
+  
   .empty{text-align:center;padding:40px 20px;color:var(--mut);font-style:italic}
   .loading{text-align:center;padding:40px;color:var(--mut)}
   .error{background:rgba(248,113,113,.1);border:1px solid var(--bad);color:var(--bad);padding:14px;border-radius:8px;margin-bottom:16px}
   
-  /* Filters for predictions */
   .filter-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
   .filter-row select{padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;font-size:13px;min-width:200px;color:var(--txt)}
   .filter-row select:focus{outline:2px solid var(--mountain)}
   
-  /* Логотипы в таблицах */
   .team-cell{display:flex;align-items:center;gap:8px}
   .team-cell img{width:20px;height:20px}
 
-  /* Модальное окно */
   .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:.3s}
   .modal-overlay.active{opacity:1;pointer-events:auto}
   .modal-content{background:var(--card);border:1px solid var(--mountain);border-radius:12px;width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(20px);transition:.3s;box-shadow:0 20px 40px rgba(0,0,0,.5)}
@@ -147,9 +168,13 @@
   <div id="error" class="error" style="display:none"></div>
   
   <div id="content" style="display:none">
-    <!-- РЕЙТИНГ -->
     <section id="tab-rating" class="tab active">
-      <div id="next-game-box"></div>
+      
+      <div class="banners-grid">
+        <div id="next-game-box"></div>
+        <div id="leader-box"></div>
+      </div>
+
       <h2>Рейтинг <small>по очкам</small></h2>
       <div class="legend">
         <span>Форма (последние 5 матчей):</span>
@@ -163,7 +188,7 @@
           <h4>🏆 Общий зачёт</h4>
           <div class="table-wrap">
             <table class="rating-table">
-              <thead><tr><th>#</th><th>Ник</th><th>Прогнозов</th><th>Форма</th><th>Очки</th></tr></thead>
+              <thead><tr><th>#</th><th>Ник</th><th>Прог.</th><th>Форма</th><th>Очки</th></tr></thead>
               <tbody id="r-points"></tbody>
             </table>
           </div>
@@ -172,7 +197,7 @@
           <h4>📝 По числу прогнозов</h4>
           <div class="table-wrap">
             <table class="rating-table">
-              <thead><tr><th>#</th><th>Ник</th><th>Прогнозов</th><th>Очки</th></tr></thead>
+              <thead><tr><th>#</th><th>Ник</th><th>Прог.</th><th>Очки</th></tr></thead>
               <tbody id="r-count"></tbody>
             </table>
           </div>
@@ -189,7 +214,6 @@
       </div>
     </section>
 
-    <!-- МАТЧИ -->
     <section id="tab-matches" class="tab">
       <h2>Матчи <small>результаты</small></h2>
       <div class="stats" id="m-stats"></div>
@@ -201,7 +225,6 @@
       </div>
     </section>
 
-    <!-- ПРОГНОЗЫ -->
     <section id="tab-predictions" class="tab">
       <h2>Прогнозы участников <small>кто на что поставил</small></h2>
       <div class="filter-row">
@@ -217,12 +240,11 @@
   </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО -->
-<div id="user-modal" class="modal-overlay">
+<div id="user-modal" class="modal-overlay" onclick="if(event.target===this) closeModal()">
   <div class="modal-content">
     <div class="modal-header">
       <h3 id="modal-title">Прогнозы</h3>
-      <button id="close-modal" class="btn-close" aria-label="Закрыть">&times;</button>
+      <button class="btn-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
     </div>
     <div class="modal-body">
       <table class="modal-table">
@@ -302,23 +324,58 @@ function renderNextGame(state){
       <div>
         <div class="ng-info"><small>Следующий матч</small></div>
         <div class="ng-teams">
-          <div class="ng-team">${getLogo('Юта', 48)} <b>Юта</b></div>
+          <div class="ng-team">${getLogo('Юта', 44)} <b>Юта</b></div>
           <div class="ng-vs">VS</div>
-          <div class="ng-team">${getLogo(next.opponent, 48)} <b>${esc(next.opponent)}</b></div>
+          <div class="ng-team">${getLogo(next.opponent, 44)} <b>${esc(next.opponent)}</b></div>
         </div>
         <div class="ng-info" style="margin-top:8px">
           <span>${fmtDate(next.date)} · ${isHome?'Дома':'В гостях'}</span>
         </div>
       </div>
       <div class="ng-countdown">
-        <small>Успейте сделать прогноз!</small>
-        <b>Матч #${next.id}</b>
+        <small>Успейте!</small>
+        <b>#${next.id}</b>
       </div>
     </div>
   `;
 }
 
-function openUserModal(nickname) {
+function renderLeader(state) {
+  const box = $('#leader-box');
+  const list = buildRating(state);
+  
+  if (!list.length) { 
+    box.innerHTML = `<div class="leader-banner"><div class="ng-info"><small>Лидер</small><b>Нет данных</b></div></div>`; 
+    return; 
+  }
+
+  const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
+  const leader = sortP[0];
+  const title = leader.points > 0 ? "Лидер прогнозов" : "Первый в таблице";
+
+  box.innerHTML = `
+    <div class="leader-banner">
+      <div>
+        <div class="ng-info">
+          <small>${title}</small>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+          <span style="font-size:28px; line-height:1;">🏆</span>
+          <b style="font-size:20px; color:var(--gold)">${esc(leader.nick)}</b>
+        </div>
+        <div class="ng-info" style="margin-top:8px">
+          <span style="color:var(--gold)">${leader.points} очков</span>
+        </div>
+      </div>
+      <div class="ng-countdown" style="border-color:rgba(201,169,97,.4)">
+        <small style="color:var(--gold)">Точных</small>
+        <b style="color:var(--gold)">${leader.exact || 0}</b>
+      </div>
+    </div>
+  `;
+}
+
+window.openUserModal = function(nickname) {
   if (!appState) return;
   const preds = appState.predictions.filter(p => p.nick === nickname);
   preds.sort((a,b) => Number(a.matchId) - Number(b.matchId));
@@ -350,20 +407,8 @@ function openUserModal(nickname) {
   $('#user-modal').classList.add('active');
 }
 
-function closeModal() { $('#user-modal').classList.remove('active'); }
-document.getElementById('close-modal').addEventListener('click', closeModal);
-$('#user-modal').addEventListener('click', (e) => { if (e.target.id === 'user-modal') closeModal(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-// Самое главное: вешаем обработчик клика прямо на document
-document.addEventListener('click', (e) => {
-  // Если кликнули на элемент с классом clickable
-  const target = e.target.closest('.nick.clickable');
-  if (target) {
-    const nick = target.getAttribute('data-nick');
-    if (nick) openUserModal(nick);
-  }
-});
+window.closeModal = function() { $('#user-modal').classList.remove('active'); }
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.closeModal(); });
 
 function render(state){
   appState = state;
@@ -371,17 +416,21 @@ function render(state){
   $('#content').style.display='block';
 
   renderNextGame(state);
+  renderLeader(state);
 
   const list = buildRating(state);
   const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
   const sortC = [...list].sort((a,b)=>b.count-a.count||b.points-a.points||a.nick.localeCompare(b.nick));
   const sortE = [...list].sort((a,b)=>b.exact-a.exact||b.points-a.points||a.nick.localeCompare(b.nick));
 
-  // Добавляем data-nick и класс clickable
   const renderBody = (arr, cols) => arr.length ? arr.map((r,i)=>
     `<tr>
       <td><span class="${posClass(i)}">${i+1}</span></td>
-      <td><span class="nick clickable ${r.nick.startsWith('@')?'nick-tg':''}" data-nick="${esc(r.nick)}">${esc(r.nick)}</span></td>
+      <td>
+        <button class="nick-btn ${r.nick.startsWith('@')?'tg':''}" onclick="openUserModal('${esc(r.nick)}')" title="Показать все прогнозы">
+          ${esc(r.nick)} <span class="icon">🔍</span>
+        </button>
+      </td>
       ${cols.includes('count')?`<td>${r.count}</td>`:''}
       ${cols.includes('streak')?`<td><div class="streak">${r.streak.map(s=>`<span class="${s.type}" title="Матч #${s.id}"></span>`).join('')}</div></td>`:''}
       ${cols.includes('exact')?`<td>${r.exact||'<span style="color:var(--mut)">—</span>'}</td>`:''}
@@ -435,7 +484,11 @@ function render(state){
       }
 
       return `<tr class="${s && s.exact ? 'exact':''}">
-        <td><span class="nick clickable ${p.nick.startsWith('@')?'nick-tg':''}" data-nick="${esc(p.nick)}">${esc(p.nick)}</span></td>
+        <td>
+          <button class="nick-btn ${p.nick.startsWith('@')?'tg':''}" onclick="openUserModal('${esc(p.nick)}')" title="Показать все прогнозы">
+            ${esc(p.nick)} <span class="icon">🔍</span>
+          </button>
+        </td>
         <td><div class="team-cell">#${p.matchId} ${m?getLogo(m.opponent):''} ${m?esc(m.opponent):'—'}</div></td>
         <td><b style="color:var(--mountain)">${p.utah} : ${p.opp}</b></td>
         <td style="color:var(--mut)">${actual}</td>
