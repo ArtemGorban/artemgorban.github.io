@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Уютная Юта — Рейтинг</title>
+<style>
+  :root{
+    --navy:#0E1E3C; --mountain:#71C5E8; --gold:#C9A961;
+    --bg:#060E1F; --card:#0F1E38; --line:#1E3358; --txt:#E6EEF8; --mut:#8FA6C6;
+    --ok:#4ADE80; --bad:#F87171;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,#040A17 0%,#0A1530 100%);color:var(--txt);line-height:1.5;min-height:100vh;padding:20px}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+  header img{width:44px;height:44px}
+  header b{font-size:18px;color:var(--mountain);display:block;line-height:1.2}
+  header span{font-size:11px;letter-spacing:2px;color:var(--mut)}
+  h2{font-size:20px;margin:24px 0 14px;font-weight:800;display:flex;align-items:center;gap:10px}
+  h2 small{font-size:12px;color:var(--mut);font-weight:400}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+  .stat small{display:block;color:var(--mut);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+  .stat b{font-size:22px;color:var(--mountain);font-weight:800}
+  .table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:20px}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:500px}
+  th{text-align:left;padding:10px 14px;font-size:11px;letter-spacing:1px;color:var(--mut);text-transform:uppercase;border-bottom:1px solid var(--line);font-weight:700;background:rgba(113,197,232,.04)}
+  td{padding:9px 14px;border-bottom:1px solid rgba(30,51,88,.5)}
+  tr:hover td{background:rgba(113,197,232,.04)}
+  tr.played td{background:rgba(74,222,128,.03)}
+  tr.exact td{background:rgba(201,169,97,.08)}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
+  .badge.ok{background:rgba(74,222,128,.15);color:var(--ok)}
+  .badge.mut{background:rgba(143,166,198,.12);color:var(--mut)}
+  .badge.exact{background:rgba(201,169,97,.2);color:var(--gold)}
+  .badge.bad{background:rgba(248,113,113,.15);color:var(--bad)}
+  .pts{font-weight:800;color:var(--mountain)}
+  .pos{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:rgba(113,197,232,.1);color:var(--mountain);font-weight:800;font-size:12px}
+  .pos.gold{background:rgba(201,169,97,.2);color:var(--gold)}
+  .pos.silver{background:rgba(200,200,200,.15);color:#C8C8C8}
+  .pos.bronze{background:rgba(200,140,80,.2);color:#C88C50}
+  .nick{font-weight:700}
+  .nick-tg{color:var(--mountain)}
+  .rating-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .rating-block h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .empty{text-align:center;padding:40px 20px;color:var(--mut);font-style:italic}
+  .loading{text-align:center;padding:40px;color:var(--mut)}
+  .error{background:rgba(248,113,113,.1);border:1px solid var(--bad);color:var(--bad);padding:14px;border-radius:8px;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="https://assets.nhle.com/logos/nhl/svg/UTA_light.svg" alt="">
+    <div>
+      <b>УЮТНАЯ ЮТА</b>
+      <span>КОНКУРС ПРОГНОЗОВ</span>
+    </div>
+  </header>
+
+  <div id="loader" class="loading">Загрузка данных…</div>
+  <div id="error" class="error" style="display:none"></div>
+  <div id="content" style="display:none">
+    <h2>Рейтинг <small>по очкам</small></h2>
+    <div class="rating-grid">
+      <div class="rating-block">
+        <h4>🏆 Общий зачёт</h4>
+        <div class="table-wrap"><table><thead><tr><th>#</th><th>Ник</th><th>Прогнозов</th><th>Точных</th><th>Очки</th></tr></thead><tbody id="r-points"></tbody></table></div>
+      </div>
+      <div class="rating-block">
+        <h4>📝 По числу прогнозов</h4>
+        <div class="table-wrap"><table><thead><tr><th>#</th><th>Ник</th><th>Прогнозов</th><th>Очки</th></tr></thead><tbody id="r-count"></tbody></table></div>
+      </div>
+      <div class="rating-block">
+        <h4>🎯 По точным счётам</h4>
+        <div class="table-wrap"><table><thead><tr><th>#</th><th>Ник</th><th>Точных</th><th>Очки</th></tr></thead><tbody id="r-exact"></tbody></table></div>
+      </div>
+    </div>
+
+    <h2>Матчи <small>результаты</small></h2>
+    <div class="stats" id="m-stats"></div>
+    <div class="table-wrap"><table><thead><tr><th>#</th><th>Дата</th><th>Соперник</th><th>Д/Г</th><th>Счёт</th><th>Прогнозов</th></tr></thead><tbody id="m-body"></tbody></table></div>
+  </div>
+</div>
+
+<script>
+const DATA_URL = 'data.json';
+const $ = (s, c=document) => c.querySelector(s);
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function fmtDate(d){try{return new Date(d+'T12:00:00Z').toLocaleDateString('ru-RU',{day:'2-digit',month:'short'});}catch{return d;}}
+
+async function loadData(){
+  try{
+    const res = await fetch(DATA_URL + '?t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+    if(!data.matches || !data.predictions || !data.config) throw new Error('Неверный формат JSON');
+    render(data);
+  }catch(e){
+    $('#loader').style.display='none';
+    const err = $('#error');
+    err.style.display='block';
+    err.innerHTML = 'Не удалось загрузить данные.<br><small>'+esc(e.message)+'</small><br><br>Проверьте, что файл <code>data.json</code> лежит в репозитории.';
+  }
+}
+
+function isPlayed(m){return m && m.utah != null && m.opp != null && m.utah !== '' && m.opp !== '';}
+function score(p,m,cfg){
+  if(!isPlayed(m)) return {points:null, exact:null};
+  if(p.utah===m.utah && p.opp===m.opp) return {points:cfg.exact, exact:true};
+  if((p.utah-p.opp)===(m.utah-m.opp)) return {points:cfg.diff, exact:false};
+  if(Math.sign(p.utah-p.opp)===Math.sign(m.utah-m.opp)) return {points:cfg.winner, exact:false};
+  return {points:0, exact:false};
+}
+
+function buildRating(state){
+  const map = {};
+  state.predictions.forEach(p=>{
+    const m = state.matches.find(x=>x.id===Number(p.matchId));
+    if(!m) return;
+    if(!map[p.nick]) map[p.nick]={nick:p.nick,count:0,exact:0,points:0};
+    const r = map[p.nick];
+    r.count++;
+    const s = score(p,m,state.config);
+    if(s.exact===true) r.exact++;
+    if(s.points!=null) r.points+=s.points;
+  });
+  return Object.values(map);
+}
+
+function posClass(i){return i===0?'pos gold':i===1?'pos silver':i===2?'pos bronze':'pos';}
+
+function render(state){
+  $('#loader').style.display='none';
+  $('#content').style.display='block';
+
+  const list = buildRating(state);
+  const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
+  const sortC = [...list].sort((a,b)=>b.count-a.count||b.points-a.points||a.nick.localeCompare(b.nick));
+  const sortE = [...list].sort((a,b)=>b.exact-a.exact||b.points-a.points||a.nick.localeCompare(b.nick));
+
+  const body = (arr, cols) => arr.length ? arr.map((r,i)=>
+    `<tr><td><span class="${posClass(i)}">${i+1}</span></td><td><span class="nick ${r.nick.startsWith('@')?'nick-tg':''}">${esc(r.nick)}</span></td>${
+      cols.includes('count')?`<td>${r.count}</td>`:''
+    }${cols.includes('exact')?`<td>${r.exact||'<span style="color:var(--mut)">—</span>'}</td>`:''}<td class="pts">${r.points}</td></tr>`
+  ).join('') : `<tr><td colspan="5"><div class="empty">Нет данных</div></td></tr>`;
+
+  $('#r-points').innerHTML = body(sortP, ['count','exact']);
+  $('#r-count').innerHTML  = body(sortC, ['count']);
+  $('#r-exact').innerHTML  = body(sortE, ['exact']);
+
+  // Матчи
+  const played = state.matches.filter(isPlayed).length;
+  $('#m-stats').innerHTML = `
+    <div class="stat"><small>Всего матчей</small><b>${state.matches.length}</b></div>
+    <div class="stat"><small>Сыграно</small><b>${played}</b></div>
+    <div class="stat"><small>Прогнозов</small><b>${state.predictions.length}</b></div>
+  `;
+
+  $('#m-body').innerHTML = state.matches.map(m=>{
+    const cnt = state.predictions.filter(p=>Number(p.matchId)===m.id).length;
+    const played = isPlayed(m);
+    const scoreTxt = played ? `${m.utah} : ${m.opp}` : '—';
+    const cls = played ? 'played' : '';
+    return `<tr class="${cls}"><td>${m.id}</td><td>${fmtDate(m.date)}</td><td>${esc(m.opponent)}</td><td>${esc(m.venue)}</td><td><b style="color:${played?'var(--mountain)':'var(--mut)'}">${scoreTxt}</b></td><td>${cnt||'—'}</td></tr>`;
+  }).join('');
+}
+
+loadData();
+</script>
+</body>
+</html>
