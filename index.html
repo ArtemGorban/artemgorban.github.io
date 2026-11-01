@@ -166,11 +166,11 @@
   .modal-table td{padding:12px 20px}
   
   /* Стили для статистики внутри матча */
-  .match-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 20px; border-bottom: 1px solid var(--line); background: rgba(0,0,0,0.1); }
-  .match-stat-box { background: var(--card); padding: 12px; border-radius: 10px; border: 1px solid var(--line); text-align: center; }
+  .match-stats-grid { display: grid; grid-template-columns: 1fr; gap: 16px; padding: 20px; border-bottom: 1px solid var(--line); background: rgba(0,0,0,0.1); }
+  .match-stat-box { background: var(--card); padding: 14px; border-radius: 10px; border: 1px solid var(--line); text-align: center; }
   .match-stat-box small { display: block; color: var(--mut); font-size: 11px; text-transform: uppercase; margin-bottom: 4px; }
   .match-stat-box b { font-size: 18px; color: var(--mountain); }
-  .bar-container { height: 8px; background: var(--line); border-radius: 4px; margin-top: 8px; overflow: hidden; display: flex; }
+  .bar-container { height: 10px; background: var(--line); border-radius: 5px; margin-top: 10px; overflow: hidden; display: flex; }
   .bar-utah { background: var(--mountain); height: 100%; }
   .bar-opp { background: var(--bad); height: 100%; }
 </style>
@@ -232,7 +232,7 @@
       </div>
     </section>
 
-    <!-- МАТЧИ (ОБНОВЛЕНО) -->
+    <!-- МАТЧИ -->
     <section id="tab-matches" class="tab">
       <h2>Матчи <small>нажмите на строку, чтобы увидеть прогнозы</small></h2>
       
@@ -246,7 +246,7 @@
       
       <div class="table-wrap">
         <table id="matches-table">
-          <thead><tr><th>#</th><th>Дата</th><th>Соперник</th><th>Д/Г</th><th>Счёт</th><th>Ср. прогноз</th><th>Прогнозов</th></tr></thead>
+          <thead><tr><th>#</th><th>Дата</th><th>Соперник</th><th>Д/Г</th><th>Счёт</th><th>Прогнозов</th></tr></thead>
           <tbody id="m-body"></tbody>
         </table>
       </div>
@@ -294,7 +294,7 @@
   </div>
 </div>
 
-<!-- НОВАЯ МОДАЛКА МАТЧА -->
+<!-- МОДАЛКА МАТЧА -->
 <div id="match-modal" class="modal-overlay" onclick="if(event.target===this) closeMatchModal()">
   <div class="modal-content">
     <div class="modal-header">
@@ -460,7 +460,7 @@ function renderLeader(state) {
 }
 
 /* =========================================
-   ОБНОВЛЕННЫЙ РЕНДЕР МАТЧЕЙ
+   ОБНОВЛЕННЫЙ РЕНДЕР МАТЧЕЙ (БЕЗ СРЕДНЕГО ПРОГНОЗА)
    ========================================= */
 function renderMatches(state) {
   const body = $('#m-body');
@@ -470,7 +470,7 @@ function renderMatches(state) {
   if (currentMatchFilter === 'played') matches = matches.filter(m => isPlayed(m));
 
   if (!matches.length) {
-    body.innerHTML = `<tr><td colspan="7"><div class="empty">Матчей не найдено</div></td></tr>`;
+    body.innerHTML = `<tr><td colspan="6"><div class="empty">Матчей не найдено</div></td></tr>`;
     return;
   }
 
@@ -478,13 +478,6 @@ function renderMatches(state) {
     const pl = isPlayed(m);
     const preds = state.predictions.filter(p => Number(p.matchId) === m.id);
     const cnt = preds.length;
-    
-    let avgTxt = '—';
-    if (cnt > 0) {
-      const avgU = (preds.reduce((sum, p) => sum + p.utah, 0) / cnt).toFixed(1);
-      const avgO = (preds.reduce((sum, p) => sum + p.opp, 0) / cnt).toFixed(1);
-      avgTxt = `${avgU} : ${avgO}`;
-    }
 
     let scoreTxt = '—';
     let statusBadge = '';
@@ -501,12 +494,10 @@ function renderMatches(state) {
       <td><div class="team-cell">${getLogo(m.opponent)} ${esc(m.opponent)}</div></td>
       <td>${esc(m.venue)}</td>
       <td><b style="color:${pl ? 'var(--mountain)' : 'var(--mut)'}">${scoreTxt}</b> ${statusBadge}</td>
-      <td style="color:var(--gold);font-weight:600;">${avgTxt}</td>
       <td>${cnt || '—'}</td>
     </tr>`;
   }).join('');
 
-  // Обновляем статистику
   const played = state.matches.filter(isPlayed).length;
   $('#m-stats').innerHTML = `
     <div class="stat"><small>Всего матчей</small><b>${state.matches.length}</b></div>
@@ -526,7 +517,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 /* =========================================
-   МОДАЛКА МАТЧА (СТАТИСТИКА)
+   МОДАЛКА МАТЧА (ОБНОВЛЕНА)
    ========================================= */
 window.openMatchModal = function(matchId) {
   if (!appState) return;
@@ -538,24 +529,9 @@ window.openMatchModal = function(matchId) {
   
   $('#match-modal-title').innerHTML = `#${m.id} Юта vs ${esc(m.opponent)} <span style="font-size:14px;color:var(--mut);font-weight:400">(${fmtDate(m.date)})</span>`;
   
-  // Подсчет статистики
-  let avgU = 0, avgO = 0;
-  let utahWins = 0, oppWins = 0, draws = 0;
-  
-  if (preds.length > 0) {
-    avgU = (preds.reduce((sum, p) => sum + p.utah, 0) / preds.length).toFixed(1);
-    avgO = (preds.reduce((sum, p) => sum + p.opp, 0) / preds.length).toFixed(1);
-    preds.forEach(p => {
-      if (p.utah > p.opp) utahWins++;
-      else if (p.utah < p.opp) oppWins++;
-      else draws++;
-    });
-  }
-
-  // Отрисовка блоков статистики
+  // Статистика без среднего прогноза
   let statsHtml = '';
   if (pl) {
-    // Если матч сыгран, показываем реальный счет
     const actualStatus = m.utah > m.opp ? 'Победа Юты' : m.utah < m.opp ? 'Победа соперника' : 'Ничья';
     statsHtml = `
       <div class="match-stat-box">
@@ -563,25 +539,22 @@ window.openMatchModal = function(matchId) {
         <b style="color:var(--gold); font-size:24px">${m.utah} : ${m.opp}</b>
         <div style="font-size:12px; margin-top:4px; color:var(--mut)">${actualStatus}</div>
       </div>
-      <div class="match-stat-box">
-        <small>Средний прогноз</small>
-        <b>${avgU} : ${avgO}</b>
-        <div style="font-size:12px; margin-top:4px; color:var(--mut)">Сделано ${preds.length} прогнозов</div>
-      </div>
     `;
   } else {
-    // Если не сыгран, показываем распределение прогнозов
+    let utahWins = 0, oppWins = 0, draws = 0;
+    preds.forEach(p => {
+      if (p.utah > p.opp) utahWins++;
+      else if (p.utah < p.opp) oppWins++;
+      else draws++;
+    });
     const totalVotes = utahWins + oppWins + draws || 1;
     const utahPct = Math.round((utahWins / totalVotes) * 100);
     const oppPct = Math.round((oppWins / totalVotes) * 100);
+    
     statsHtml = `
-      <div class="match-stat-box">
-        <small>Средний прогноз</small>
-        <b>${avgU} : ${avgO}</b>
-      </div>
       <div class="match-stat-box" style="text-align:left">
         <small>Мнения участников (${preds.length})</small>
-        <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:4px;">
+        <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px;">
           <span style="color:var(--mountain)">Победа Юты: ${utahPct}%</span>
           <span style="color:var(--bad)">Победа соперника: ${oppPct}%</span>
         </div>
@@ -674,7 +647,7 @@ function render(state){
   $('#content').style.display='block';
   renderNextGame(state);
   renderLeader(state);
-  renderMatches(state); // Обновленный рендер
+  renderMatches(state);
 
   const list = buildRating(state);
   const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
