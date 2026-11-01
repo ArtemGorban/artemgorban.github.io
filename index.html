@@ -50,9 +50,10 @@
   .ng-vs{color:var(--gold);font-weight:900;font-size:12px;letter-spacing:2px}
   .ng-info small{display:block;color:var(--mountain);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
   .ng-info span{color:var(--mut);font-size:13px}
-  .ng-countdown{background:var(--navy);padding:8px 14px;border-radius:8px;text-align:center;border:1px solid var(--line); min-width:110px;}
-  .ng-countdown small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase}
-  .ng-countdown b{font-size:16px;color:var(--gold)}
+  
+  .ng-countdown{background:var(--navy);padding:8px 14px;border-radius:8px;text-align:center;border:1px solid var(--line); min-width:130px;}
+  .ng-countdown small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase;margin-bottom:2px}
+  .ng-countdown b{font-size:15px;color:var(--gold);font-family:ui-monospace, Consolas, monospace; letter-spacing:0.5px;}
 
   .leader-banner {
     background: linear-gradient(135deg, rgba(201,169,97,.15), rgba(14,30,60,.8));
@@ -77,7 +78,6 @@
   tr.played td{background:rgba(74,222,128,.03)}
   tr.exact td{background:rgba(201,169,97,.08)}
   
-  /* Стили для турнирной таблицы */
   .standings-table th { text-align: center; }
   .standings-table td { text-align: center; }
   .standings-table td:nth-child(2) { text-align: left; }
@@ -140,6 +140,15 @@
   .modal-table{width:100%;font-size:13px;margin:0}
   .modal-table th{position:sticky;top:0;background:var(--card);z-index:1;border-bottom:2px solid var(--line)}
   .modal-table td{padding:10px 20px}
+  
+  .share-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(113,197,232,.15); color: var(--mountain);
+    border: 1px solid rgba(113,197,232,.3); padding: 6px 12px;
+    border-radius: 6px; font-size: 12px; font-weight: 700; text-decoration: none;
+    transition: .2s; cursor: pointer; margin-right: 12px;
+  }
+  .share-btn:hover { background: var(--mountain); color: var(--navy); }
 </style>
 </head>
 <body>
@@ -220,7 +229,6 @@
       </div>
     </section>
 
-    <!-- ОБНОВЛЕННАЯ ВКЛАДКА: ТУРНИРНАЯ ТАБЛИЦА -->
     <section id="tab-standings" class="tab">
       <h2>Турнирная таблица <small>Центральный дивизион</small></h2>
       <p style="color:var(--mut); font-size:13px; margin-bottom:14px;">Сезон 2026/27 · Выделена строка Utah Mammoth</p>
@@ -228,96 +236,49 @@
         <table class="standings-table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Команда</th>
-              <th>И</th>
-              <th>В</th>
-              <th>П</th>
-              <th>ПО</th>
-              <th>Ш</th>
-              <th>О</th>
+              <th>#</th><th>Команда</th><th>И</th><th>В</th><th>П</th><th>ПО</th><th>Ш</th><th>О</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>1</td>
               <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/MIN_light.svg" width="20" height="20" alt="Minnesota"> Minnesota Wild</div></td>
-              <td>15</td>
-              <td>9</td>
-              <td>6</td>
-              <td>0</td>
-              <td>47–35</td>
-              <td><b>21</b></td>
+              <td>15</td><td>9</td><td>6</td><td>0</td><td>47–35</td><td><b>21</b></td>
             </tr>
             <tr class="uta-row">
               <td>2</td>
               <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/UTA_light.svg" width="20" height="20" alt="Utah"> Utah Mammoth</div></td>
-              <td>14</td>
-              <td>9</td>
-              <td>5</td>
-              <td>0</td>
-              <td>51–46</td>
-              <td><b style="color:var(--gold)">18</b></td>
+              <td>14</td><td>9</td><td>5</td><td>0</td><td>51–46</td><td><b style="color:var(--gold)">18</b></td>
             </tr>
             <tr>
               <td>3</td>
               <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/COL_light.svg" width="20" height="20" alt="Colorado"> Colorado Avalanche</div></td>
-              <td>13</td>
-              <td>7</td>
-              <td>6</td>
-              <td>0</td>
-              <td>54–42</td>
-              <td><b>15</b></td>
+              <td>13</td><td>7</td><td>6</td><td>0</td><td>54–42</td><td><b>15</b></td>
             </tr>
             <tr>
               <td>4</td>
               <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/DAL_light.svg" width="20" height="20" alt="Dallas"> Dallas Stars</div></td>
-              <td>13</td>
-              <td>7</td>
-              <td>6</td>
-              <td>0</td>
-              <td>35–30</td>
-              <td><b>15</b></td>
+              <td>13</td><td>7</td><td>6</td><td>0</td><td>35–30</td><td><b>15</b></td>
             </tr>
             <tr>
               <td>5</td>
               <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/STL_light.svg" width="20" height="20" alt="St. Louis"> St. Louis Blues</div></td>
-              <td>13</td>
-              <td>6</td>
-              <td>7</td>
-              <td>0</td>
-              <td>—</td>
-              <td><b>13</b></td>
+              <td>13</td><td>6</td><td>7</td><td>0</td><td>—</td><td><b>13</b></td>
             </tr>
             <tr>
               <td>6</td>
               <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/NSH_light.svg" width="20" height="20" alt="Nashville"> Nashville Predators</div></td>
-              <td>13</td>
-              <td>4</td>
-              <td>9</td>
-              <td>0</td>
-              <td>—</td>
-              <td><b>13</b></td>
+              <td>13</td><td>4</td><td>9</td><td>0</td><td>—</td><td><b>13</b></td>
             </tr>
             <tr>
               <td>7</td>
               <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/WPG_light.svg" width="20" height="20" alt="Winnipeg"> Winnipeg Jets</div></td>
-              <td>14</td>
-              <td>4</td>
-              <td>7</td>
-              <td>3</td>
-              <td>34–47</td>
-              <td><b>11</b></td>
+              <td>14</td><td>4</td><td>7</td><td>3</td><td>34–47</td><td><b>11</b></td>
             </tr>
             <tr>
               <td>8</td>
               <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/CHI_light.svg" width="20" height="20" alt="Chicago"> Chicago Blackhawks</div></td>
-              <td>14</td>
-              <td>4</td>
-              <td>9</td>
-              <td>1</td>
-              <td>31–53</td>
-              <td><b>9</b></td>
+              <td>14</td><td>4</td><td>9</td><td>1</td><td>31–53</td><td><b>9</b></td>
             </tr>
           </tbody>
         </table>
@@ -330,7 +291,12 @@
   <div class="modal-content">
     <div class="modal-header">
       <h3 id="modal-title">Прогнозы</h3>
-      <button class="btn-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
+      <div style="display:flex; align-items:center;">
+        <a id="share-btn" class="share-btn" href="#" target="_blank" title="Поделиться в Telegram">
+          ✈️ Поделиться
+        </a>
+        <button class="btn-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
+      </div>
     </div>
     <div class="modal-body">
       <table class="modal-table">
@@ -346,6 +312,7 @@ const DATA_URL = 'data.json';
 const $ = (s, c=document) => c.querySelector(s);
 
 let appState = null;
+let countdownInterval = null;
 
 const TEAM_ABBR = {
   'Юта': 'UTA', 'Питтсбург': 'PIT', 'Сиэтл Кракен': 'SEA', 'Тампа': 'TBL', 'Миннесота': 'MIN',
@@ -400,11 +367,49 @@ function buildRating(state){
 
 function posClass(i){return i===0?'pos gold':i===1?'pos silver':i===2?'pos bronze':'pos';}
 
+// Таймер
+function startCountdown(matchDateStr, matchTimeStr) {
+  if (countdownInterval) clearInterval(countdownInterval);
+  
+  // Формируем строку времени: дата + время + часовой пояс Москвы (+03:00)
+  const time = matchTimeStr || '22:00';
+  const targetDate = new Date(matchDateStr + 'T' + time + ':00+03:00').getTime();
+
+  function updateTimer() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+    const timerEl = document.getElementById('countdown-timer');
+    if (!timerEl) return;
+
+    if (distance < 0) {
+      timerEl.innerHTML = "Матч начался!";
+      clearInterval(countdownInterval);
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    timerEl.innerHTML = `${days > 0 ? days + 'д ' : ''}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+  
+  updateTimer();
+  countdownInterval = setInterval(updateTimer, 1000);
+}
+
 function renderNextGame(state){
   const next = state.matches.find(m=>!isPlayed(m));
   const box = $('#next-game-box');
-  if(!next) { box.innerHTML = ''; return; }
+  if(!next) { 
+    box.innerHTML = ''; 
+    if (countdownInterval) clearInterval(countdownInterval);
+    return; 
+  }
+  
   const isHome = next.venue === 'Дома';
+  const timeStr = next.time ? ` в ${next.time}` : '';
   box.innerHTML = `
     <div class="next-game">
       <div>
@@ -415,15 +420,17 @@ function renderNextGame(state){
           <div class="ng-team">${getLogo(next.opponent, 44)} <b>${esc(next.opponent)}</b></div>
         </div>
         <div class="ng-info" style="margin-top:8px">
-          <span>${fmtDate(next.date)} · ${isHome?'Дома':'В гостях'}</span>
+          <span>${fmtDate(next.date)}${timeStr} · ${isHome?'Дома':'В гостях'}</span>
         </div>
       </div>
       <div class="ng-countdown">
         <small>Успейте!</small>
-        <b>#${next.id}</b>
+        <b id="countdown-timer">--:--:--</b>
       </div>
     </div>
   `;
+  
+  startCountdown(next.date, next.time);
 }
 
 function renderLeader(state) {
@@ -468,6 +475,10 @@ window.openUserModal = function(nickname) {
 
   $('#modal-title').innerHTML = `История: <span style="color:var(--mountain)">${esc(nickname)}</span>`;
   
+  const text = encodeURIComponent(`Мои прогнозы в конкурсе "Уютная Юта"! Смотри мой рейтинг и историю: ${nickname}`);
+  const url = encodeURIComponent(window.location.href);
+  $('#share-btn').href = `https://t.me/share/url?url=${url}&text=${text}`;
+
   if (!preds.length) {
     $('#modal-body-table').innerHTML = `<tr><td colspan="5"><div class="empty">Нет прогнозов</div></td></tr>`;
   } else {
