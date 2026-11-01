@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Уютная Юта — Рейтинг</title>
-<!-- Подключаем библиотеку для создания картинок -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{
     --navy:#0E1E3C; --mountain:#71C5E8; --gold:#C9A961;
@@ -117,48 +115,6 @@
   .modal-table{width:100%;font-size:13px;margin:0}
   .modal-table th{position:sticky;top:0;background:var(--card);z-index:1;border-bottom:2px solid var(--line)}
   .modal-table td{padding:10px 20px}
-  
-  /* Кнопка "Поделиться" */
-  .share-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(113,197,232,.15); color: var(--mountain);
-    border: 1px solid rgba(113,197,232,.3); padding: 6px 12px;
-    border-radius: 6px; font-size: 12px; font-weight: 700; text-decoration: none;
-    transition: .2s; cursor: pointer; margin-right: 12px;
-  }
-  .share-btn:hover { background: var(--mountain); color: var(--navy); }
-  .share-btn:disabled { opacity: 0.5; cursor: wait; }
-
-  /* Скрытый блок для генерации картинки */
-  #share-card-container {
-    position: fixed; left: -9999px; top: 0;
-    width: 600px; /* Фиксированная ширина для картинки */
-  }
-  .share-card {
-    background: linear-gradient(135deg, #0E1E3C 0%, #060E1F 100%);
-    border: 2px solid var(--mountain);
-    border-radius: 20px;
-    padding: 40px;
-    text-align: center;
-    font-family: 'Segoe UI', sans-serif;
-    color: #E6EEF8;
-    position: relative;
-    overflow: hidden;
-  }
-  .share-card::before {
-    content: ''; position: absolute; top: -50px; left: -50px; width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(113,197,232,0.3), transparent 70%);
-  }
-  .share-card img.logo { width: 100px; height: 100px; margin-bottom: 20px; }
-  .share-card .title { font-size: 20px; letter-spacing: 2px; color: var(--mountain); text-transform: uppercase; font-weight: 800; margin-bottom: 30px; }
-  .share-card .nickname { font-size: 42px; font-weight: 900; color: var(--gold); margin-bottom: 20px; word-break: break-all; }
-  .share-card .rank { font-size: 72px; font-weight: 900; line-height: 1; margin-bottom: 10px; }
-  .share-card .rank span { font-size: 24px; color: var(--mut); font-weight: 700; }
-  .share-card .stats-grid { display: flex; justify-content: center; gap: 40px; margin-top: 40px; }
-  .share-card .stat-item { background: rgba(255,255,255,0.05); padding: 15px 25px; border-radius: 12px; }
-  .share-card .stat-item small { display: block; font-size: 14px; color: var(--mut); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-  .share-card .stat-item b { font-size: 28px; color: var(--mountain); }
-  .share-card .footer { margin-top: 40px; font-size: 14px; color: var(--mut); }
 </style>
 </head>
 <body>
@@ -297,38 +253,11 @@
   </div>
 </div>
 
-<!-- Скрытый блок для рендера картинки -->
-<div id="share-card-container">
-  <div class="share-card" id="share-card">
-    <img src="https://assets.nhle.com/logos/nhl/svg/UTA_light.svg" class="logo" crossorigin="anonymous">
-    <div class="title">Уютная Юта</div>
-    <div class="nickname" id="sc-nickname">@nickname</div>
-    <div class="rank" id="sc-rank">1 <span>место</span></div>
-    <div class="stats-grid">
-      <div class="stat-item">
-        <small>Очки</small>
-        <b id="sc-points">0</b>
-      </div>
-      <div class="stat-item">
-        <small>Точных</small>
-        <b id="sc-exact">0</b>
-      </div>
-    </div>
-    <div class="footer">artemgorban.github.io</div>
-  </div>
-</div>
-
 <div id="user-modal" class="modal-overlay" onclick="if(event.target===this) closeModal()">
   <div class="modal-content">
     <div class="modal-header">
       <h3 id="modal-title">Прогнозы</h3>
-      <div style="display:flex; align-items:center;">
-        <!-- Изменили href на onclick -->
-        <button id="share-btn" class="share-btn" onclick="generateAndShare()">
-          ✈️ Поделиться
-        </button>
-        <button class="btn-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
-      </div>
+      <button class="btn-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
     </div>
     <div class="modal-body">
       <table class="modal-table">
@@ -344,7 +273,6 @@ const DATA_URL = 'data.json';
 const $ = (s, c=document) => c.querySelector(s);
 let appState = null;
 let countdownInterval = null;
-let currentShareNickname = '';
 
 const TEAM_ABBR = {'Юта': 'UTA', 'Питтсбург': 'PIT', 'Сиэтл Кракен': 'SEA', 'Тампа': 'TBL', 'Миннесота': 'MIN','Филадельфия': 'PHI', 'Торонто': 'TOR', 'Монреаль': 'MTL', 'Оттава': 'OTT','Вегас': 'VGK', 'Сент-Луис': 'STL', 'Сан-Хосе': 'SJS', 'Ванкувер': 'VAN','Колорадо': 'COL', 'Анахайм': 'ANA', 'Виннипег': 'WPG', 'Нэшвилл': 'NSH','Даллас': 'DAL', 'Лос-Анджелес': 'LAK', 'Чикаго': 'CHI', 'Нью-Йорк Айлендерс': 'NYI','Каролина': 'CAR', 'Эдмонтон': 'EDM', 'Нью-Джерси': 'NJD', 'Детройт': 'DET','Бостон': 'BOS', 'Баффало': 'BUF', 'Вашингтон': 'WSH', 'Калгари': 'CGY','Коламбус': 'CBJ', 'Флорида': 'FLA', 'Нью-Йорк Рейнджерс': 'NYR'};
 
@@ -469,82 +397,8 @@ function renderLeader(state) {
   `;
 }
 
-// ФУНКЦИЯ ГЕНЕРАЦИИ И ОТПРАВКИ КАРТИНКИ
-async function generateAndShare() {
-  const btn = $('#share-btn');
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '⏳ Генерация...';
-  btn.disabled = true;
-
-  // Заполняем скрытую карточку данными
-  const list = buildRating(appState);
-  const userStats = list.find(u => u.nick === currentShareNickname);
-  const points = userStats ? userStats.points : 0;
-  const exact = userStats ? userStats.exact : 0;
-  
-  const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
-  const rank = sortP.findIndex(u => u.nick === currentShareNickname) + 1;
-
-  $('#sc-nickname').textContent = currentShareNickname;
-  $('#sc-points').textContent = points;
-  $('#sc-exact').textContent = exact;
-  
-  // Красивое отображение места (с медальками для топ-3)
-  let rankHtml = `${rank} <span>место</span>`;
-  if (rank === 1) rankHtml = `🥇 <span>1 место</span>`;
-  if (rank === 2) rankHtml = `🥈 <span>2 место</span>`;
-  if (rank === 3) rankHtml = `🥉 <span>3 место</span>`;
-  $('#sc-rank').innerHTML = rankHtml;
-
-  try {
-    // Рендерим картинку
-    const canvas = await html2canvas(document.getElementById('share-card'), {
-      scale: 2, // Увеличенный масштаб для четкости
-      useCORS: true,
-      backgroundColor: '#0E1E3C'
-    });
-
-    // Конвертируем в Blob (файл)
-    canvas.toBlob(async (blob) => {
-      const file = new File([blob], `utah-rating-${currentShareNickname.replace('@','')}.png`, { type: 'image/png' });
-      
-      // Проверяем поддержку Web Share API (работает на телефонах)
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            files: [file],
-            title: 'Мои прогнозы в Уютной Юте',
-            text: `Я на ${rank} месте с ${points} очками!`
-          });
-        } catch (err) {
-          console.log('Пользователь отменил отправку или произошла ошибка:', err);
-        }
-      } else {
-        // Если это компьютер — просто скачиваем картинку
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `utah-rating-${currentShareNickname.replace('@','')}.png`;
-        a.click();
-        URL.revokeObjectURL(url);
-        alert('Картинка скачана! Вы можете отправить её другу в Telegram или выложить в сторис.');
-      }
-      
-      btn.innerHTML = originalText;
-      btn.disabled = false;
-    }, 'image/png');
-  } catch (err) {
-    console.error('Ошибка генерации:', err);
-    alert('Не удалось создать картинку. Попробуйте еще раз.');
-    btn.innerHTML = originalText;
-    btn.disabled = false;
-  }
-}
-
 window.openUserModal = function(nickname) {
   if (!appState) return;
-  currentShareNickname = nickname; // Сохраняем текущий ник для кнопки "Поделиться"
-  
   const preds = appState.predictions.filter(p => p.nick === nickname);
   preds.sort((a,b) => Number(a.matchId) - Number(b.matchId));
 
