@@ -367,12 +367,9 @@ function buildRating(state){
 
 function posClass(i){return i===0?'pos gold':i===1?'pos silver':i===2?'pos bronze':'pos';}
 
-// Таймер
 function startCountdown(matchDateStr, matchTimeStr) {
   if (countdownInterval) clearInterval(countdownInterval);
-  
-  // Формируем строку времени: дата + время + часовой пояс Москвы (+03:00)
-  const time = matchTimeStr || '22:00';
+  const time = matchTimeStr || '00:00'; 
   const targetDate = new Date(matchDateStr + 'T' + time + ':00+03:00').getTime();
 
   function updateTimer() {
@@ -409,7 +406,8 @@ function renderNextGame(state){
   }
   
   const isHome = next.venue === 'Дома';
-  const timeStr = next.time ? ` в ${next.time}` : '';
+  const displayTime = next.time ? next.time : '00:00';
+  
   box.innerHTML = `
     <div class="next-game">
       <div>
@@ -420,7 +418,7 @@ function renderNextGame(state){
           <div class="ng-team">${getLogo(next.opponent, 44)} <b>${esc(next.opponent)}</b></div>
         </div>
         <div class="ng-info" style="margin-top:8px">
-          <span>${fmtDate(next.date)}${timeStr} · ${isHome?'Дома':'В гостях'}</span>
+          <span>${fmtDate(next.date)} в ${displayTime} · ${isHome?'Дома':'В гостях'}</span>
         </div>
       </div>
       <div class="ng-countdown">
@@ -475,9 +473,17 @@ window.openUserModal = function(nickname) {
 
   $('#modal-title').innerHTML = `История: <span style="color:var(--mountain)">${esc(nickname)}</span>`;
   
-  const text = encodeURIComponent(`Мои прогнозы в конкурсе "Уютная Юта"! Смотри мой рейтинг и историю: ${nickname}`);
+  // Динамическая кнопка "Поделиться"
+  const list = buildRating(appState);
+  const userStats = list.find(u => u.nick === nickname);
+  const points = userStats ? userStats.points : 0;
+  
+  const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
+  const rank = sortP.findIndex(u => u.nick === nickname) + 1;
+
+  const shareText = `Я на ${rank} месте в конкурсе "Уютная Юта" с ${points} очками! Смотри мой рейтинг и историю: ${nickname}`;
   const url = encodeURIComponent(window.location.href);
-  $('#share-btn').href = `https://t.me/share/url?url=${url}&text=${text}`;
+  $('#share-btn').href = `https://t.me/share/url?url=${url}&text=${encodeURIComponent(shareText)}`;
 
   if (!preds.length) {
     $('#modal-body-table').innerHTML = `<tr><td colspan="5"><div class="empty">Нет прогнозов</div></td></tr>`;
