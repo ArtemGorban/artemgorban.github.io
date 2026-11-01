@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Уютная Юта — Рейтинг</title>
 <style>
-  /* =========================================
-     ПЕРЕМЕННЫЕ (ТЕМНАЯ ТЕМА - СТЕКЛО)
-     ========================================= */
   :root {
     --navy: #0E1E3C; --mountain: #71C5E8; --gold: #C9A961;
     --bg: #060E1F; --txt: #E6EEF8; --mut: #8FA6C6;
@@ -175,55 +172,197 @@
   .bar-utah { background: var(--mountain); height: 100%; }
   .bar-opp { background: var(--bad); height: 100%; }
 
+  /* H2H (История встреч) */
+  .h2h-section { padding: 20px; border-top: 1px solid var(--line); background: rgba(0,0,0,0.05); }
+  .h2h-section h4 { font-size: 14px; color: var(--gold); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .h2h-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .h2h-table th { padding: 6px 8px; text-align: left; font-size: 10px; color: var(--mut); text-transform: uppercase; border-bottom: 1px solid var(--line); font-weight: 700; position: static; background: transparent; }
+  .h2h-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .h2h-table tr:hover td { background: rgba(255,255,255,0.02); }
+
   /* =========================================
-     МОБИЛЬНАЯ ОПТИМИЗАЦИЯ (ЭКРАНЫ < 768px)
+     КАЛЕНДАРЬ
+     ========================================= */
+  .month-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+  .month-tabs::-webkit-scrollbar { height: 6px; }
+  .month-tabs::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .month-tabs::-webkit-scrollbar-track { background: transparent; }
+  
+  .month-btn {
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--mut);
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: .2s;
+    backdrop-filter: blur(10px);
+    font-family: inherit;
+  }
+  .month-btn:hover { color: var(--txt); border-color: var(--mountain); }
+  .month-btn.active {
+    background: var(--mountain);
+    color: var(--navy);
+    border-color: var(--mountain);
+    box-shadow: 0 4px 15px rgba(113,197,232,0.3);
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .match-card {
+    background: var(--card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 16px var(--shadow);
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .match-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--mountain);
+  }
+
+  .card-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .date-box { display: flex; flex-direction: column; }
+  .date-day { font-size: 20px; font-weight: 800; line-height: 1; color: var(--txt); }
+  .date-month { font-size: 10px; font-weight: 700; color: var(--mut); text-transform: uppercase; letter-spacing: 1px; }
+  
+  .venue-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(113,197,232,.15);
+    color: var(--mountain);
+    text-transform: uppercase;
+  }
+  .venue-badge.away {
+    background: rgba(143,166,198,.12);
+    color: var(--mut);
+  }
+
+  .card-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .opponent-logo { width: 60px; height: 60px; object-fit: contain; }
+  .opponent-abbr { font-size: 14px; font-weight: 800; letter-spacing: 1px; color: var(--txt); }
+
+  .card-bottom {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .match-time {
+    font-size: 16px;
+    font-weight: 700;
+    font-family: ui-monospace, Consolas, monospace;
+    color: var(--gold);
+  }
+  
+  .match-card.played { opacity: 0.7; }
+  .match-card.played:hover { opacity: 1; }
+  .match-card.played .match-time { color: var(--mut); }
+  .match-score {
+    font-size: 18px;
+    font-weight: 900;
+    font-family: ui-monospace, Consolas, monospace;
+  }
+  .match-score.win { color: var(--ok); }
+  .match-score.loss { color: var(--bad); }
+
+  .empty-month {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--mut);
+    font-style: italic;
+    background: var(--card);
+    border: 1px dashed var(--line);
+    border-radius: 16px;
+  }
+
+  /* =========================================
+     МОБИЛЬНАЯ АДАПТАЦИЯ
      ========================================= */
   @media (max-width: 768px) {
-    /* Уменьшаем общие отступы */
     body { padding: 10px; }
-    
-    /* Шапка: логотип и кнопки в столбик */
     header { padding: 12px; flex-direction: column; gap: 16px; top: 0; }
     .brand { width: 100%; justify-content: center; }
     nav { width: 100%; justify-content: center; gap: 4px; }
     nav button { padding: 6px 10px; font-size: 11px; }
     .theme-btn { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; }
 
-    /* Плашки сверху: в одну колонку */
     .banners-grid { grid-template-columns: 1fr; gap: 12px; }
     .next-game { flex-direction: column; align-items: flex-start; }
     .ng-teams { width: 100%; justify-content: space-between; }
     .ng-countdown { width: 100%; margin-top: 10px; }
     
-    /* Подиум: уменьшаем блоки, чтобы влезли в экран */
     .p-nick { width: 80px; font-size: 11px; }
     .p-pts { font-size: 12px; }
     .p-block { width: 80px; height: 50px !important; font-size: 20px; }
     .pos-1 .p-block { height: 70px !important; }
 
-    /* Таблицы: прячем лишние колонки */
     th, td { padding: 8px 4px; font-size: 11px; }
-    
-    /* В общем зачете прячем колонку "Форма" (4-я) */
     .rating-table th:nth-child(4), .rating-table td:nth-child(4) { display: none; }
     .rating-grid { grid-template-columns: 1fr; }
-    
-    /* В матчах прячем колонку "Серия" (6-я) */
     #matches-table th:nth-child(6), #matches-table td:nth-child(6) { display: none; }
-    
-    /* Бейджи и иконки делаем чуть меньше */
-    .user-badges { display: none; /* На телефоне скрываем, чтобы не ломать строку */ }
+    .user-badges { display: none; }
     .badge-icon { font-size: 10px; }
     
-    /* Модальные окна на весь экран */
     .modal-overlay { padding: 10px; }
     .modal-content { max-height: 95vh; border-radius: 12px; }
     .modal-header { padding: 12px; }
     .modal-title-area h3 { font-size: 16px; }
     .modal-table td { padding: 10px 12px; font-size: 12px; }
-    
-    /* Таблица дивизиона: разрешаем горизонтальный скролл, если не влезет */
     .standings-table { min-width: 400px; }
+
+    /* Календарь на мобильных */
+    .calendar-grid {
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    .match-card { padding: 12px; }
+    .opponent-logo { width: 46px; height: 46px; }
+    .opponent-abbr { font-size: 12px; }
+    .date-day { font-size: 18px; }
+    .match-time { font-size: 14px; }
+    .match-score { font-size: 16px; }
+    .month-btn { padding: 8px 14px; font-size: 12px; }
   }
 </style>
 </head>
@@ -238,6 +377,7 @@
       <nav>
         <button class="active" data-tab="rating">Рейтинг</button>
         <button data-tab="matches">Матчи</button>
+        <button data-tab="calendar">Календарь</button>
         <button data-tab="standings">Таблица</button>
       </nav>
     </div>
@@ -261,6 +401,12 @@
         <span><span class="dot diff"></span> разница</span>
         <span><span class="dot win"></span> победитель</span>
         <span><span class="dot loss"></span> промах</span>
+        <span style="margin-left:10px; border-left:1px solid var(--line); padding-left:10px;">
+          <span class="badge-icon" title="Лидер">👑</span>
+          <span class="badge-icon" title="Снайпер">🎯</span>
+          <span class="badge-icon" title="В ударе">🔥</span>
+          <span class="badge-icon" title="Новичок">🐣</span>
+        </span>
       </div>
       <div class="rating-grid">
         <div class="rating-block">
@@ -278,9 +424,9 @@
       </div>
     </section>
 
-    <!-- МАТЧИ -->
+    <!-- МАТЧИ (таблица) -->
     <section id="tab-matches" class="tab">
-      <h2>Матчи <small>нажмите на строку</small></h2>
+      <h2>Матчи <small>нажмите на строку, чтобы увидеть прогнозы</small></h2>
       <div class="filter-bar">
         <button class="filter-btn active" data-filter="all">Все</button>
         <button class="filter-btn" data-filter="upcoming">Предстоящие</button>
@@ -293,6 +439,13 @@
           <tbody id="m-body"></tbody>
         </table>
       </div>
+    </section>
+
+    <!-- КАЛЕНДАРЬ -->
+    <section id="tab-calendar" class="tab">
+      <h2>Календарь матчей <small>нажмите на карточку, чтобы увидеть прогнозы</small></h2>
+      <div class="month-tabs" id="month-tabs"></div>
+      <div class="calendar-grid" id="calendar-container"></div>
     </section>
 
     <!-- ТАБЛИЦА -->
@@ -348,6 +501,10 @@
     </div>
     <div class="modal-body">
       <div id="match-stats-container" class="match-stats-grid"></div>
+      
+      <!-- История встреч -->
+      <div id="match-h2h-container"></div>
+
       <table class="modal-table">
         <thead><tr><th>Ник</th><th>Прогноз</th><th>Очки</th></tr></thead>
         <tbody id="match-modal-table"></tbody>
@@ -363,6 +520,10 @@ let appState = null;
 let countdownInterval = null;
 let currentMatchFilter = 'all';
 let teamStreaks = {};
+
+const MONTHS_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+const MONTHS_SHORT = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+const SEASON_ORDER = [10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9]; // Октябрь, Ноябрь, Декабрь, Январь...
 
 function initTheme() {
   const savedTheme = localStorage.getItem('utah_theme');
@@ -565,6 +726,118 @@ function renderMatches(state) {
   `;
 }
 
+/* =========================================
+   КАЛЕНДАРЬ
+   ========================================= */
+function renderCalendar(state) {
+  if (!state || !state.matches) return;
+
+  const grouped = {};
+  state.matches.forEach(m => {
+    const key = m.date.substring(0, 7); // "2026-10"
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(m);
+  });
+
+  // СОРТИРОВКА МЕСЯЦЕВ ПО ХОККЕЙНОМУ СЕЗОНУ
+  const sortedKeys = Object.keys(grouped).sort((a, b) => {
+    const monthA = parseInt(a.split('-')[1]);
+    const monthB = parseInt(b.split('-')[1]);
+    return SEASON_ORDER.indexOf(monthA) - SEASON_ORDER.indexOf(monthB);
+  });
+
+  const tabsContainer = document.getElementById('month-tabs');
+  tabsContainer.innerHTML = '';
+
+  if (!sortedKeys.length) {
+    document.getElementById('calendar-container').innerHTML = `<div class="empty-month">Нет матчей в расписании.</div>`;
+    return;
+  }
+
+  sortedKeys.forEach(key => {
+    const month = parseInt(key.split('-')[1]);
+    const monthName = MONTHS_RU[month - 1];
+    const count = grouped[key].length;
+
+    const btn = document.createElement('button');
+    btn.className = 'month-btn';
+    btn.dataset.monthKey = key;
+    btn.innerHTML = `${monthName} <span style="opacity:0.5;font-size:12px;margin-left:4px">(${count})</span>`;
+    btn.onclick = () => {
+      document.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderMatchesForMonth(grouped[key]);
+    };
+    tabsContainer.appendChild(btn);
+  });
+
+  let defaultKey = sortedKeys[0];
+  for (const key of sortedKeys) {
+    if (grouped[key].some(m => !isPlayed(m))) {
+      defaultKey = key;
+      break;
+    }
+  }
+
+  const defaultBtn = tabsContainer.querySelector(`[data-month-key="${defaultKey}"]`);
+  if (defaultBtn) defaultBtn.click();
+}
+
+function renderMatchesForMonth(matches) {
+  const container = document.getElementById('calendar-container');
+  container.innerHTML = '';
+
+  if (!matches || matches.length === 0) {
+    container.innerHTML = `<div class="empty-month">В этом месяце матчей нет.</div>`;
+    return;
+  }
+
+  matches.forEach(m => {
+    const dateObj = new Date(m.date + 'T12:00:00Z');
+    const day = dateObj.getDate();
+    const monthShort = MONTHS_SHORT[dateObj.getMonth()];
+
+    const abbr = TEAM_ABBR[m.opponent] || 'NHL';
+    const logo = `https://assets.nhle.com/logos/nhl/svg/${abbr}_light.svg`;
+    const isHome = m.venue === 'Дома';
+    const played = isPlayed(m);
+
+    let bottomHtml = '';
+    if (played) {
+      const isWin = m.utah > m.opp;
+      const scoreClass = isWin ? 'win' : 'loss';
+      bottomHtml = `<div class="match-score ${scoreClass}">${m.utah} : ${m.opp}</div>`;
+    } else {
+      const displayTime = m.time || '00:00';
+      bottomHtml = `<div class="match-time">${displayTime}</div>`;
+    }
+
+    const card = document.createElement('div');
+    card.className = `match-card ${played ? 'played' : ''}`;
+    card.onclick = () => openMatchModal(m.id);
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="date-box">
+          <span class="date-day">${day}</span>
+          <span class="date-month">${monthShort}</span>
+        </div>
+        <span class="venue-badge ${isHome ? '' : 'away'}">${isHome ? 'Дома' : 'Гости'}</span>
+      </div>
+      <div class="card-center">
+        <img class="opponent-logo" src="${logo}" alt="${abbr}" onerror="this.style.display='none'">
+        <span class="opponent-abbr">${abbr}</span>
+      </div>
+      <div class="card-bottom">${bottomHtml}</div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+/* =========================================
+   МОДАЛКИ
+   ========================================= */
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -580,7 +853,10 @@ window.openMatchModal = function(matchId) {
   if (!m) return;
   const preds = appState.predictions.filter(p => Number(p.matchId) === matchId);
   const pl = isPlayed(m);
+  
   $('#match-modal-title').innerHTML = `#${m.id} Юта vs ${esc(m.opponent)} <span style="font-size:14px;color:var(--mut);font-weight:400">(${fmtDate(m.date)})</span>`;
+  
+  // Статистика
   let statsHtml = '';
   if (pl) {
     const actualStatus = m.utah > m.opp ? 'Победа Юты' : m.utah < m.opp ? 'Победа соперника' : 'Ничья';
@@ -598,6 +874,40 @@ window.openMatchModal = function(matchId) {
     statsHtml = `<div class="match-stat-box" style="text-align:left"><small>Мнения участников (${preds.length})</small><div style="display:flex; justify-content:space-between; font-size:12px; margin-top:8px;"><span style="color:var(--mountain)">Победа Юты: ${utahPct}%</span><span style="color:var(--bad)">Победа соперника: ${oppPct}%</span></div><div class="bar-container"><div class="bar-utah" style="width:${utahPct}%"></div><div class="bar-opp" style="width:${oppPct}%"></div></div></div>`;
   }
   $('#match-stats-container').innerHTML = statsHtml;
+
+  // История встреч (H2H)
+  const h2hMatches = appState.matches.filter(x => 
+    x.opponent === m.opponent && 
+    x.id !== m.id && 
+    isPlayed(x)
+  ).sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const h2hContainer = document.getElementById('match-h2h-container');
+  if (h2hMatches.length === 0) {
+    h2hContainer.innerHTML = `<div class="h2h-section" style="text-align:center; font-style:italic; color:var(--mut); font-size:13px;">Это первый матч с этим соперником в сезоне.</div>`;
+  } else {
+    h2hContainer.innerHTML = `
+      <div class="h2h-section">
+        <h4>⚔️ История встреч с ${esc(m.opponent)}</h4>
+        <table class="h2h-table">
+          <thead><tr><th>Дата</th><th style="text-align:center;">Счёт</th><th style="text-align:right;">Итог</th></tr></thead>
+          <tbody>
+            ${h2hMatches.map(hm => {
+              const isWin = hm.utah > hm.opp;
+              const resStr = isWin ? '<span style="color:var(--ok);font-weight:700;">Победа</span>' : '<span style="color:var(--bad);font-weight:700;">Поражение</span>';
+              return `<tr>
+                <td>${fmtDate(hm.date)}</td>
+                <td style="text-align:center; font-weight:700; color:var(--mountain);">${hm.utah} : ${hm.opp}</td>
+                <td style="text-align:right;">${resStr}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  // Прогнозы
   if (!preds.length) {
     $('#match-modal-table').innerHTML = `<tr><td colspan="3"><div class="empty">На этот матч пока нет прогнозов</div></td></tr>`;
   } else {
@@ -613,6 +923,7 @@ window.openMatchModal = function(matchId) {
       return `<tr><td><span class="nick-btn ${p.nick.startsWith('@')?'tg':''}">${esc(p.nick)}</span></td><td><b style="color:var(--mountain)">${p.utah} : ${p.opp}</b></td><td>${ptsCell}</td></tr>`;
     }).join('');
   }
+  
   $('#match-modal').classList.add('active');
 }
 window.closeMatchModal = function() { $('#match-modal').classList.remove('active'); }
@@ -661,6 +972,7 @@ function render(state){
   renderNextGame(state);
   renderLeader(state);
   renderMatches(state);
+  renderCalendar(state);
 
   const list = buildRating(state);
   const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
