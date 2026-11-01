@@ -947,6 +947,20 @@
       "matchId": 6,
       "utah": 4,
       "opp": 1
+    },
+    {
+      "id": "pmvxtpwyh7bbtyq",
+      "nick": "@anton_hamburg",
+      "matchId": 6,
+      "utah": 5,
+      "opp": 2
+    },
+    {
+      "id": "pmvxtqeq1zkn3mk",
+      "nick": "Pavel N",
+      "matchId": 6,
+      "utah": 5,
+      "opp": 3
     }
   ]
 }
