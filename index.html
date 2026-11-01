@@ -28,22 +28,20 @@
   .tab.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
   
-  /* Сетка для двух баннеров (выравнивание по высоте) */
   .banners-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 16px;
     margin-bottom: 24px;
-    align-items: stretch; /* Заставляет элементы быть одинаковой высоты */
+    align-items: stretch;
   }
 
-  /* Плашка следующего матча */
   .next-game{
     background:linear-gradient(135deg, rgba(113,197,232,.15), rgba(14,30,60,.8));
     border:1px solid var(--mountain); border-radius:12px; padding:20px;
     display:flex; align-items:center; justify-content:space-between;
     flex-wrap:wrap; gap:16px;
-    height: 100%; /* Растягивается на всю высоту */
+    height: 100%;
   }
   .ng-teams{display:flex;align-items:center;gap:16px}
   .ng-team{display:flex;align-items:center;gap:10px}
@@ -56,12 +54,11 @@
   .ng-countdown small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase}
   .ng-countdown b{font-size:16px;color:var(--gold)}
 
-  /* Плашка лидера */
   .leader-banner {
     background: linear-gradient(135deg, rgba(201,169,97,.15), rgba(14,30,60,.8));
     border: 1px solid var(--gold); border-radius: 12px; padding: 20px;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    height: 100%; /* Растягивается на всю высоту */
+    height: 100%;
   }
   .leader-banner .ng-info small { color: var(--gold); }
   
@@ -80,6 +77,13 @@
   tr.played td{background:rgba(74,222,128,.03)}
   tr.exact td{background:rgba(201,169,97,.08)}
   
+  /* Стили для турнирной таблицы */
+  .standings-table th { text-align: center; }
+  .standings-table td { text-align: center; }
+  .standings-table td:nth-child(2) { text-align: left; }
+  .standings-table tr.uta-row td { background: rgba(113,197,232,.1); font-weight: 700; }
+  .standings-table tr.uta-row td:first-child { color: var(--mountain); }
+  
   .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
   .badge.ok{background:rgba(74,222,128,.15);color:var(--ok)}
   .badge.mut{background:rgba(143,166,198,.12);color:var(--mut)}
@@ -92,7 +96,6 @@
   .pos.silver{background:rgba(200,200,200,.15);color:#C8C8C8}
   .pos.bronze{background:rgba(200,140,80,.2);color:#C88C50}
   
-  /* Ник в виде кнопки */
   .nick-btn {
     background: transparent; border: 1px solid transparent; padding: 2px 4px; border-radius: 6px;
     cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700; color: var(--txt);
@@ -106,7 +109,6 @@
   .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:8px;background:rgba(6,14,31,.4);padding:6px 10px;border-radius:6px}
   .legend span{display:flex;align-items:center;gap:4px}
   
-  /* Уменьшили размер точек и отступы, чтобы не было скролла */
   .streak{display:flex;gap:2px}
   .streak span{width:6px;height:6px;border-radius:50%;background:var(--mut);display:inline-block}
   .streak span.exact, .legend .dot.exact{background:var(--gold)}
@@ -115,20 +117,13 @@
   .streak span.loss, .legend .dot.loss{background:var(--bad)}
   .legend .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
 
-  /* Увеличили минимальную ширину колонок с 280 до 320 */
   .rating-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
   .rating-block h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-  
-  /* Уменьшили паддинги в таблицах рейтинга, чтобы убрать скролл */
   .rating-table th, .rating-table td{padding:6px 4px;font-size:12px}
   
   .empty{text-align:center;padding:40px 20px;color:var(--mut);font-style:italic}
   .loading{text-align:center;padding:40px;color:var(--mut)}
   .error{background:rgba(248,113,113,.1);border:1px solid var(--bad);color:var(--bad);padding:14px;border-radius:8px;margin-bottom:16px}
-  
-  .filter-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
-  .filter-row select{padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;font-size:13px;min-width:200px;color:var(--txt)}
-  .filter-row select:focus{outline:2px solid var(--mountain)}
   
   .team-cell{display:flex;align-items:center;gap:8px}
   .team-cell img{width:20px;height:20px}
@@ -160,7 +155,7 @@
     <nav>
       <button class="active" data-tab="rating">Рейтинг</button>
       <button data-tab="matches">Матчи</button>
-      <button data-tab="predictions">Прогнозы</button>
+      <button data-tab="standings">Таблица</button>
     </nav>
   </header>
 
@@ -225,15 +220,106 @@
       </div>
     </section>
 
-    <section id="tab-predictions" class="tab">
-      <h2>Прогнозы участников <small>кто на что поставил</small></h2>
-      <div class="filter-row">
-        <select id="pred-match-filter"><option value="all">Все сыгранные матчи</option></select>
-      </div>
+    <!-- ОБНОВЛЕННАЯ ВКЛАДКА: ТУРНИРНАЯ ТАБЛИЦА -->
+    <section id="tab-standings" class="tab">
+      <h2>Турнирная таблица <small>Центральный дивизион</small></h2>
+      <p style="color:var(--mut); font-size:13px; margin-bottom:14px;">Сезон 2026/27 · Выделена строка Utah Mammoth</p>
       <div class="table-wrap">
-        <table>
-          <thead><tr><th>Ник</th><th>Матч</th><th>Прогноз</th><th>Итог</th><th>Очки</th></tr></thead>
-          <tbody id="p-body"></tbody>
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Команда</th>
+              <th>И</th>
+              <th>В</th>
+              <th>П</th>
+              <th>ПО</th>
+              <th>Ш</th>
+              <th>О</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/MIN_light.svg" width="20" height="20" alt="Minnesota"> Minnesota Wild</div></td>
+              <td>15</td>
+              <td>9</td>
+              <td>6</td>
+              <td>0</td>
+              <td>47–35</td>
+              <td><b>21</b></td>
+            </tr>
+            <tr class="uta-row">
+              <td>2</td>
+              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/UTA_light.svg" width="20" height="20" alt="Utah"> Utah Mammoth</div></td>
+              <td>14</td>
+              <td>9</td>
+              <td>5</td>
+              <td>0</td>
+              <td>51–46</td>
+              <td><b style="color:var(--gold)">18</b></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/COL_light.svg" width="20" height="20" alt="Colorado"> Colorado Avalanche</div></td>
+              <td>13</td>
+              <td>7</td>
+              <td>6</td>
+              <td>0</td>
+              <td>54–42</td>
+              <td><b>15</b></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/DAL_light.svg" width="20" height="20" alt="Dallas"> Dallas Stars</div></td>
+              <td>13</td>
+              <td>7</td>
+              <td>6</td>
+              <td>0</td>
+              <td>35–30</td>
+              <td><b>15</b></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/STL_light.svg" width="20" height="20" alt="St. Louis"> St. Louis Blues</div></td>
+              <td>13</td>
+              <td>6</td>
+              <td>7</td>
+              <td>0</td>
+              <td>—</td>
+              <td><b>13</b></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/NSH_light.svg" width="20" height="20" alt="Nashville"> Nashville Predators</div></td>
+              <td>13</td>
+              <td>4</td>
+              <td>9</td>
+              <td>0</td>
+              <td>—</td>
+              <td><b>13</b></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/WPG_light.svg" width="20" height="20" alt="Winnipeg"> Winnipeg Jets</div></td>
+              <td>14</td>
+              <td>4</td>
+              <td>7</td>
+              <td>3</td>
+              <td>34–47</td>
+              <td><b>11</b></td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/CHI_light.svg" width="20" height="20" alt="Chicago"> Chicago Blackhawks</div></td>
+              <td>14</td>
+              <td>4</td>
+              <td>9</td>
+              <td>1</td>
+              <td>31–53</td>
+              <td><b>9</b></td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </section>
@@ -455,50 +541,6 @@ function render(state){
     const scoreTxt = pl ? `${m.utah} : ${m.opp}` : '—';
     return `<tr class="${pl?'played':''}"><td>${m.id}</td><td>${fmtDate(m.date)}</td><td><div class="team-cell">${getLogo(m.opponent)} ${esc(m.opponent)}</div></td><td>${esc(m.venue)}</td><td><b style="color:${pl?'var(--mountain)':'var(--mut)'}">${scoreTxt}</b></td><td>${cnt||'—'}</td></tr>`;
   }).join('');
-
-  const playedMatches = state.matches.filter(isPlayed).sort((a,b)=>b.id-a.id);
-  const filterSel = $('#pred-match-filter');
-  filterSel.innerHTML = `<option value="all">Все сыгранные матчи</option>` + 
-    playedMatches.map(m=>`<option value="${m.id}">#${m.id} · ${fmtDate(m.date)} · ${esc(m.opponent)}</option>`).join('');
-  
-  function renderPreds(matchId){
-    let preds = state.predictions;
-    if(matchId !== 'all') preds = preds.filter(p=>Number(p.matchId)===Number(matchId));
-    preds.sort((a,b)=>b.matchId-a.matchId || a.nick.localeCompare(b.nick));
-    
-    if(!preds.length){
-      $('#p-body').innerHTML = `<tr><td colspan="5"><div class="empty">Прогнозов пока нет</div></td></tr>`;
-      return;
-    }
-    
-    $('#p-body').innerHTML = preds.map(p=>{
-      const m = state.matches.find(x=>x.id===Number(p.matchId));
-      const s = m ? score(p,m,state.config) : null;
-      const actual = m && isPlayed(m) ? `${m.utah} : ${m.opp}` : '—';
-      
-      let ptsCell = `<span class="badge mut">—</span>`;
-      if(s && s.points != null){
-        if(s.exact) ptsCell = `<span class="pts">${s.points}</span> <span class="badge exact">точно!</span>`;
-        else if(s.points > 0) ptsCell = `<span class="pts">${s.points}</span>`;
-        else ptsCell = `<span class="badge bad">0</span>`;
-      }
-
-      return `<tr class="${s && s.exact ? 'exact':''}">
-        <td>
-          <button class="nick-btn ${p.nick.startsWith('@')?'tg':''}" onclick="openUserModal('${esc(p.nick)}')" title="Показать все прогнозы">
-            ${esc(p.nick)} <span class="icon">🔍</span>
-          </button>
-        </td>
-        <td><div class="team-cell">#${p.matchId} ${m?getLogo(m.opponent):''} ${m?esc(m.opponent):'—'}</div></td>
-        <td><b style="color:var(--mountain)">${p.utah} : ${p.opp}</b></td>
-        <td style="color:var(--mut)">${actual}</td>
-        <td>${ptsCell}</td>
-      </tr>`;
-    }).join('');
-  }
-  
-  renderPreds('all');
-  filterSel.onchange = (e) => renderPreds(e.target.value);
 }
 
 document.querySelectorAll('nav button').forEach(btn => {
