@@ -9,128 +9,47 @@
      ПЕРЕМЕННЫЕ (ТЕМНАЯ ТЕМА - СТЕКЛО)
      ========================================= */
   :root {
-    --navy: #0E1E3C; 
-    --mountain: #71C5E8; 
-    --gold: #C9A961;
-    --bg: #060E1F; 
-    --txt: #E6EEF8; 
-    --mut: #8FA6C6;
-    --ok: #4ADE80; 
-    --bad: #F87171; 
-    --warn: #FBBF24;
-    
-    --card: rgba(15, 30, 56, 0.65);
-    --line: rgba(255, 255, 255, 0.08);
-    --hover-bg: rgba(255, 255, 255, 0.06);
-    --header-bg: rgba(6, 14, 31, 0.7);
-    --shadow: rgba(0, 0, 0, 0.4);
-    
-    --glow-1: rgba(113, 197, 232, 0.15);
-    --glow-2: rgba(201, 169, 97, 0.1);
+    --navy: #0E1E3C; --mountain: #71C5E8; --gold: #C9A961;
+    --bg: #060E1F; --txt: #E6EEF8; --mut: #8FA6C6;
+    --ok: #4ADE80; --bad: #F87171; --warn: #FBBF24;
+    --card: rgba(15, 30, 56, 0.65); --line: rgba(255, 255, 255, 0.08);
+    --hover-bg: rgba(255, 255, 255, 0.06); --header-bg: rgba(6, 14, 31, 0.7);
+    --shadow: rgba(0, 0, 0, 0.4); --glow-1: rgba(113, 197, 232, 0.15); --glow-2: rgba(201, 169, 97, 0.1);
   }
-
-  /* =========================================
-     СВЕТЛАЯ ТЕМА - СТЕКЛО
-     ========================================= */
   [data-theme="light"] {
-    --navy: #0E1E3C; 
-    --mountain: #1E88E5; 
-    --gold: #B8860B; 
-    --bg: #F0F4F8; 
-    --txt: #0E1E3C; 
-    --mut: #64748B;
-    --ok: #10B981; 
-    --bad: #EF4444; 
-    --warn: #F59E0B;
-
-    --card: rgba(255, 255, 255, 0.7);
-    --line: rgba(0, 0, 0, 0.08);
-    --hover-bg: rgba(0, 0, 0, 0.04);
-    --header-bg: rgba(255, 255, 255, 0.8);
-    --shadow: rgba(0, 0, 0, 0.05);
-    
-    --glow-1: rgba(30, 136, 229, 0.1);
-    --glow-2: rgba(184, 134, 11, 0.08);
+    --navy: #0E1E3C; --mountain: #1E88E5; --gold: #B8860B;
+    --bg: #F0F4F8; --txt: #0E1E3C; --mut: #64748B;
+    --ok: #10B981; --bad: #EF4444; --warn: #F59E0B;
+    --card: rgba(255, 255, 255, 0.7); --line: rgba(0, 0, 0, 0.08);
+    --hover-bg: rgba(0, 0, 0, 0.04); --header-bg: rgba(255, 255, 255, 0.8);
+    --shadow: rgba(0, 0, 0, 0.05); --glow-1: rgba(30, 136, 229, 0.1); --glow-2: rgba(184, 134, 11, 0.08);
   }
-
   *{box-sizing:border-box;margin:0;padding:0}
-  
-  body{
-    font-family:'Segoe UI',system-ui,sans-serif;
-    background-color: var(--bg);
-    background-image: 
-      radial-gradient(circle at 15% 10%, var(--glow-1) 0%, transparent 40%),
-      radial-gradient(circle at 85% 60%, var(--glow-2) 0%, transparent 40%),
-      radial-gradient(circle at 50% 90%, var(--glow-1) 0%, transparent 40%);
-    background-attachment: fixed;
-    color:var(--txt);
-    line-height:1.5;
-    min-height:100vh;
-    padding:20px;
-    transition: background .3s, color .3s;
-  }
+  body{font-family:'Segoe UI',system-ui,sans-serif;background-color:var(--bg);background-image:radial-gradient(circle at 15% 10%, var(--glow-1) 0%, transparent 40%),radial-gradient(circle at 85% 60%, var(--glow-2) 0%, transparent 40%),radial-gradient(circle at 50% 90%, var(--glow-1) 0%, transparent 40%);background-attachment:fixed;color:var(--txt);line-height:1.5;min-height:100vh;padding:20px;transition:background .3s,color .3s}
   .wrap{max-width:1200px;margin:0 auto}
   
-  header{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    margin-bottom:24px;padding:16px 20px;border-radius:16px;
-    flex-wrap:wrap;
-    background:var(--header-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--line);
-    box-shadow: 0 4px 30px var(--shadow);
-    position:sticky; top:10px; z-index:50;
-    transition: background .3s, border-color .3s;
-  }
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px;padding:16px 20px;border-radius:16px;flex-wrap:wrap;background:var(--header-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:0 4px 30px var(--shadow);position:sticky;top:10px;z-index:50;transition:background .3s,border-color .3s}
   .brand{display:flex;align-items:center;gap:12px}
   .brand img{width:44px;height:44px}
   .brand b{font-size:18px;color:var(--mountain);display:block;line-height:1.2}
   .brand span{font-size:11px;letter-spacing:2px;color:var(--mut)}
   
-  nav{display:flex;gap:8px;flex-wrap:wrap; align-items:center;}
-  nav button{
-    background:transparent;border:1px solid transparent;padding:8px 16px;border-radius:8px;
-    cursor:pointer;font-size:13px;font-weight:600;color:var(--mut);transition:.2s;
-  }
+  nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  nav button{background:transparent;border:1px solid transparent;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--mut);transition:.2s}
   nav button:hover{color:var(--txt);background:var(--hover-bg)}
-  nav button.active{background:var(--mountain);color:var(--navy);border-color:var(--mountain); box-shadow: 0 4px 15px rgba(113, 197, 232, 0.3);}
+  nav button.active{background:var(--mountain);color:var(--navy);border-color:var(--mountain);box-shadow:0 4px 15px rgba(113,197,232,0.3)}
   
-  .theme-btn {
-    background:var(--hover-bg); border:1px solid var(--line); color:var(--txt);
-    width:38px; height:38px; border-radius:50%; cursor:pointer;
-    font-size:16px; display:flex; align-items:center; justify-content:center;
-    transition:.2s; margin-left:8px;
-    backdrop-filter: blur(4px);
-  }
-  .theme-btn:hover { border-color:var(--mountain); transform:scale(1.05); }
+  .theme-btn{background:var(--hover-bg);border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.2s;margin-left:8px;backdrop-filter:blur(4px)}
+  .theme-btn:hover{border-color:var(--mountain);transform:scale(1.05)}
 
   .tab{display:none;animation:fade .3s}
   .tab.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   
-  .banners-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
-    align-items: stretch;
-  }
+  .banners-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;margin-bottom:24px;align-items:stretch}
+  .next-game, .leader-banner, .table-wrap, .stat, .rating-block h4, .modal-content{background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:0 8px 32px var(--shadow);transition:background .3s,border-color .3s}
 
-  .next-game, .leader-banner, .table-wrap, .stat, .rating-block h4, .modal-content {
-    background: var(--card);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--line);
-    box-shadow: 0 8px 32px var(--shadow);
-    transition: background .3s, border-color .3s;
-  }
-
-  .next-game{
-    border-radius:16px; padding:20px;
-    display:flex; align-items:center; justify-content:space-between;
-    flex-wrap:wrap; gap:16px; height: 100%;
-  }
+  .next-game{border-radius:16px;padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;height:100%}
   .ng-teams{display:flex;align-items:center;gap:16px}
   .ng-team{display:flex;align-items:center;gap:10px}
   .ng-team img{width:44px;height:44px}
@@ -138,70 +57,55 @@
   .ng-vs{color:var(--gold);font-weight:900;font-size:12px;letter-spacing:2px}
   .ng-info small{display:block;color:var(--mountain);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
   .ng-info span{color:var(--mut);font-size:13px}
-  .ng-countdown{background:var(--hover-bg);padding:10px 16px;border-radius:12px;text-align:center;border:1px solid var(--line); min-width:130px;}
+  .ng-countdown{background:var(--hover-bg);padding:10px 16px;border-radius:12px;text-align:center;border:1px solid var(--line);min-width:130px}
   .ng-countdown small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase;margin-bottom:2px}
-  .ng-countdown b{font-size:16px;color:var(--gold);font-family:ui-monospace, Consolas, monospace; letter-spacing:0.5px;}
+  .ng-countdown b{font-size:16px;color:var(--gold);font-family:ui-monospace,Consolas,monospace;letter-spacing:0.5px}
 
-  .leader-banner {
-    border-radius:16px; padding:20px 20px 0 20px;
-    display: flex; flex-direction: column; height: 100%;
-    position: relative;
-    border-top: 2px solid var(--gold);
-  }
-  .leader-banner .ng-info { text-align: center; margin-bottom: 10px; }
-  .leader-banner .ng-info small { color: var(--gold); font-size: 12px; letter-spacing: 2px;}
-
-  .podium {
-    display: flex; align-items: flex-end; justify-content: center; gap: 8px;
-    margin-top: auto;
-  }
-  .podium-item {
-    display: flex; flex-direction: column; align-items: center;
-    cursor: pointer; transition: transform .2s; position: relative;
-  }
-  .podium-item:hover { transform: translateY(-3px); }
+  .leader-banner{border-radius:16px;padding:20px 20px 0 20px;display:flex;flex-direction:column;height:100%;position:relative;border-top:2px solid var(--gold)}
+  .leader-banner .ng-info{text-align:center;margin-bottom:10px}
+  .leader-banner .ng-info small{color:var(--gold);font-size:12px;letter-spacing:2px}
+  .podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-top:auto}
+  .podium-item{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .2s;position:relative}
+  .podium-item:hover{transform:translateY(-3px)}
+  .p-nick{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:2px;width:100px;line-height:1.2;text-align:center;transition:.2s;word-wrap:break-word;word-break:break-all}
+  .podium-item:hover .p-nick{color:var(--mountain)}
+  .p-pts{font-size:14px;font-weight:800;color:var(--gold);margin-bottom:6px}
+  .p-block{width:100px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;border-radius:8px 8px 0 0;box-shadow:inset 0 2px 10px rgba(255,255,255,0.2);color:#111;text-shadow:0 1px 1px rgba(255,255,255,0.4)}
+  .pos-1 .p-block{height:80px;background:linear-gradient(to bottom,#FFE066,#D4AF37);color:#000}
+  .pos-2 .p-block{height:60px;background:linear-gradient(to bottom,#E0E0E0,#9E9E9E);color:#000}
+  .pos-3 .p-block{height:50px;background:linear-gradient(to bottom,#D98C5A,#A0522D);color:#fff;text-shadow:0 1px 1px rgba(0,0,0,0.4)}
   
-  .p-nick {
-    font-size: 13px; font-weight: 700; color: var(--txt);
-    margin-bottom: 2px; width: 100px; 
-    line-height: 1.2; text-align: center; transition: .2s;
-    word-wrap: break-word; word-break: break-all;
-  }
-  .podium-item:hover .p-nick { color: var(--mountain); }
-  
-  .p-pts { font-size: 14px; font-weight: 800; color: var(--gold); margin-bottom: 6px; }
-  
-  .p-block {
-    width: 100px; display: flex; align-items: center; justify-content: center;
-    font-size: 24px; font-weight: 900; border-radius: 8px 8px 0 0;
-    box-shadow: inset 0 2px 10px rgba(255,255,255,0.2);
-    color: #111; text-shadow: 0 1px 1px rgba(255,255,255,0.4);
-  }
-  .pos-1 .p-block { height: 80px; background: linear-gradient(to bottom, #FFE066, #D4AF37); color: #000; }
-  .pos-2 .p-block { height: 60px; background: linear-gradient(to bottom, #E0E0E0, #9E9E9E); color: #000; }
-  .pos-3 .p-block { height: 50px; background: linear-gradient(to bottom, #D98C5A, #A0522D); color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.4);}
-  
-  h2{font-size:20px;margin:24px 0 14px;font-weight:800;display:flex;align-items:center;gap:10px; padding-left:4px;}
+  h2{font-size:20px;margin:24px 0 14px;font-weight:800;display:flex;align-items:center;gap:10px;padding-left:4px}
   h2 small{font-size:12px;color:var(--mut);font-weight:400}
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-  .stat{border-radius:12px;padding:14px 18px;}
+  .stat{border-radius:12px;padding:14px 18px}
   .stat small{display:block;color:var(--mut);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
   .stat b{font-size:24px;color:var(--mountain);font-weight:800}
   
-  .table-wrap{overflow-x:auto;border-radius:16px;margin-bottom:20px;}
+  /* ТАБЛИЦЫ */
+  .table-wrap{overflow-x:auto;border-radius:16px;margin-bottom:20px}
   table{width:100%;border-collapse:collapse;font-size:13px}
-  th{text-align:left;padding:12px 10px;font-size:10px;letter-spacing:1px;color:var(--mut);text-transform:uppercase;border-bottom:1px solid var(--line);font-weight:700;background:rgba(0,0,0,0.1);white-space:nowrap}
-  [data-theme="light"] th { background: rgba(0,0,0,0.02); }
+  th{text-align:left;padding:12px 10px;font-size:10px;letter-spacing:1px;color:var(--mut);text-transform:uppercase;border-bottom:1px solid var(--line);font-weight:700;background:rgba(0,0,0,0.1);white-space:nowrap;position:sticky;top:0;z-index:10}
+  [data-theme="light"] th{background:rgba(0,0,0,0.02)}
   td{padding:10px;border-bottom:1px solid var(--line)}
   tr:hover td{background:var(--hover-bg)}
   tr.played td{background:rgba(74,222,128,.05)}
   tr.exact td{background:rgba(201,169,97,.08)}
   
-  .standings-table th { text-align: center; }
-  .standings-table td { text-align: center; }
-  .standings-table td:nth-child(2) { text-align: left; }
-  .standings-table tr.uta-row td { background: rgba(113,197,232,.1); font-weight: 700; border-left: 3px solid var(--mountain); }
-  .standings-table tr.uta-row td:first-child { color: var(--mountain); }
+  /* ФИЛЬТРЫ И КНОПКИ */
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-btn { background: var(--card); border: 1px solid var(--line); color: var(--mut); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: .2s; backdrop-filter: blur(10px); }
+  .filter-btn:hover { color: var(--txt); border-color: var(--mountain); }
+  .filter-btn.active { background: var(--mountain); color: var(--navy); border-color: var(--mountain); box-shadow: 0 4px 15px rgba(113,197,232,0.3); }
+
+  .match-row { cursor: pointer; transition: .2s; }
+  .match-row:hover { background: var(--hover-bg) !important; transform: scale(1.002); }
+  
+  .standings-table th{text-align:center}
+  .standings-table td{text-align:center}
+  .standings-table td:nth-child(2){text-align:left}
+  .standings-table tr.uta-row td{background:rgba(113,197,232,.1);font-weight:700;border-left:3px solid var(--mountain)}
+  .standings-table tr.uta-row td:first-child{color:var(--mountain)}
   
   .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
   .badge.ok{background:rgba(74,222,128,.15);color:var(--ok)}
@@ -209,72 +113,66 @@
   .badge.exact{background:rgba(201,169,97,.2);color:var(--gold)}
   .badge.bad{background:rgba(248,113,113,.15);color:var(--bad)}
   
-  .pts{font-weight:800;color:var(--mountain);font-size:14px;}
+  .pts{font-weight:800;color:var(--mountain);font-size:14px}
   .pos{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(113,197,232,.1);color:var(--mountain);font-weight:800;font-size:12px}
   .pos.gold{background:rgba(201,169,97,.2);color:var(--gold)}
   .pos.silver{background:rgba(200,200,200,.2);color:#888}
   .pos.bronze{background:rgba(200,140,80,.2);color:#A0522D}
   
-  /* Стили для кнопки-ника в таблице (ИСПРАВЛЕНО) */
-  .nick-btn {
-    background: transparent; border: 1px solid transparent; padding: 4px 6px; border-radius: 8px;
-    cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--txt);
-    display: inline-flex; align-items: center; gap: 6px; transition: .2s;
-    max-width: 100%; text-align: left;
-  }
-  .nick-btn:hover { background: var(--hover-bg); border-color: var(--line); }
-  .nick-btn.tg { color: var(--mountain); }
+  .nick-btn{background:transparent;border:1px solid transparent;padding:4px 6px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;color:var(--txt);display:inline-flex;align-items:center;gap:6px;transition:.2s;max-width:100%;text-align:left}
+  .nick-btn:hover{background:var(--hover-bg);border-color:var(--line)}
+  .nick-btn.tg{color:var(--mountain)}
+  .nick-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+  .user-badges{display:inline-flex;gap:2px;align-items:center;flex-shrink:0}
+  .badge-icon{font-size:12px;cursor:help;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2))}
   
-  /* Обрезка длинного текста */
-  .nick-text {
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    max-width: 110px; 
-  }
-
-  .user-badges { display: inline-flex; gap: 2px; align-items: center; flex-shrink: 0; }
-  .badge-icon { font-size: 12px; cursor: help; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-  
-  .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:12px;background:var(--card);padding:8px 14px;border-radius:8px; backdrop-filter: blur(10px); border:1px solid var(--line);}
+  .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:12px;background:var(--card);padding:8px 14px;border-radius:8px;backdrop-filter:blur(10px);border:1px solid var(--line)}
   .legend span{display:flex;align-items:center;gap:4px}
   .streak{display:flex;gap:2px}
   .streak span{width:6px;height:6px;border-radius:50%;background:var(--mut);display:inline-block}
-  .streak span.exact, .legend .dot.exact{background:var(--gold); box-shadow:0 0 4px var(--gold);}
-  .streak span.diff, .legend .dot.diff{background:var(--mountain); box-shadow:0 0 4px var(--mountain);}
-  .streak span.win, .legend .dot.win{background:var(--ok);}
-  .streak span.loss, .legend .dot.loss{background:var(--bad);}
+  .streak span.exact,.legend .dot.exact{background:var(--gold);box-shadow:0 0 4px var(--gold)}
+  .streak span.diff,.legend .dot.diff{background:var(--mountain);box-shadow:0 0 4px var(--mountain)}
+  .streak span.win,.legend .dot.win{background:var(--ok)}
+  .streak span.loss,.legend .dot.loss{background:var(--bad)}
   .legend .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
 
-  /* Уменьшили минимальную ширину колонки и внутренние отступы */
   .rating-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
-  .rating-block h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:12px;padding:10px 14px;border-radius:10px; text-align:center;}
-  
-  /* Специальные отступы для таблиц рейтинга, чтобы не было скролла */
-  .rating-table th, .rating-table td{padding:8px 2px;font-size:12px}
+  .rating-block h4{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:12px;padding:10px 14px;border-radius:10px;text-align:center}
+  .rating-table th,.rating-table td{padding:8px 2px;font-size:12px}
   
   .empty{text-align:center;padding:40px 20px;color:var(--mut);font-style:italic}
   .loading{text-align:center;padding:40px;color:var(--mut)}
-  .error{background:rgba(248,113,113,.1);border:1px solid var(--bad);color:var(--bad);padding:14px;border-radius:8px;margin-bottom:16px; backdrop-filter: blur(10px);}
+  .error{background:rgba(248,113,113,.1);border:1px solid var(--bad);color:var(--bad);padding:14px;border-radius:8px;margin-bottom:16px;backdrop-filter:blur(10px)}
   .team-cell{display:flex;align-items:center;gap:8px}
   .team-cell img{width:22px;height:22px}
 
   /* Модалка */
   .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:.3s}
   .modal-overlay.active{opacity:1;pointer-events:auto}
-  .modal-content{border-radius:16px;width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(20px);transition:.3s; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-top: 2px solid var(--mountain);}
+  .modal-content{border-radius:16px;width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(20px);transition:.3s;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);border-top:2px solid var(--mountain)}
   .modal-overlay.active .modal-content{transform:translateY(0)}
   
   .modal-header{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:rgba(0,0,0,0.1);border-radius:16px 16px 0 0}
   .modal-title-area h3{font-size:18px;color:var(--gold);margin:0 0 6px 0;display:flex;align-items:center;gap:10px}
   
-  .modal-badges { display: flex; gap: 6px; flex-wrap: wrap; }
-  .modal-badge { background: var(--hover-bg); border: 1px solid var(--line); padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+  .modal-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .modal-badge{background:var(--hover-bg);border:1px solid var(--line);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px}
   
-  .btn-close{background:transparent;border:none;color:var(--mut);font-size:24px;cursor:pointer;line-height:1;transition:.2s; margin-left: 10px;}
+  .btn-close{background:transparent;border:none;color:var(--mut);font-size:24px;cursor:pointer;line-height:1;transition:.2s;margin-left:10px}
   .btn-close:hover{color:var(--bad)}
   .modal-body{padding:0;overflow-y:auto;border-radius:0 0 16px 16px}
   .modal-table{width:100%;font-size:13px;margin:0}
   .modal-table th{position:sticky;top:0;background:var(--bg);z-index:1;border-bottom:2px solid var(--line)}
   .modal-table td{padding:12px 20px}
+  
+  /* Стили для статистики внутри матча */
+  .match-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 20px; border-bottom: 1px solid var(--line); background: rgba(0,0,0,0.1); }
+  .match-stat-box { background: var(--card); padding: 12px; border-radius: 10px; border: 1px solid var(--line); text-align: center; }
+  .match-stat-box small { display: block; color: var(--mut); font-size: 11px; text-transform: uppercase; margin-bottom: 4px; }
+  .match-stat-box b { font-size: 18px; color: var(--mountain); }
+  .bar-container { height: 8px; background: var(--line); border-radius: 4px; margin-top: 8px; overflow: hidden; display: flex; }
+  .bar-utah { background: var(--mountain); height: 100%; }
+  .bar-opp { background: var(--bad); height: 100%; }
 </style>
 </head>
 <body>
@@ -282,10 +180,7 @@
   <header>
     <div class="brand">
       <img src="https://assets.nhle.com/logos/nhl/svg/UTA_light.svg" alt="">
-      <div>
-        <b>УЮТНАЯ ЮТА</b>
-        <span>КОНКУРС ПРОГНОЗОВ</span>
-      </div>
+      <div><b>УЮТНАЯ ЮТА</b><span>КОНКУРС ПРОГНОЗОВ</span></div>
     </div>
     <div style="display:flex; align-items:center;">
       <nav>
@@ -301,13 +196,12 @@
   <div id="error" class="error" style="display:none"></div>
   
   <div id="content" style="display:none">
+    <!-- РЕЙТИНГ -->
     <section id="tab-rating" class="tab active">
-      
       <div class="banners-grid">
         <div id="next-game-box"></div>
         <div id="leader-box"></div>
       </div>
-
       <h2>Рейтинг <small>по очкам</small></h2>
       <div class="legend">
         <span>Форма:</span>
@@ -325,96 +219,55 @@
       <div class="rating-grid">
         <div class="rating-block">
           <h4>🏆 Общий зачёт</h4>
-          <div class="table-wrap">
-            <table class="rating-table">
-              <thead><tr><th>#</th><th>Ник</th><th>Прог.</th><th>Форма</th><th>Очки</th></tr></thead>
-              <tbody id="r-points"></tbody>
-            </table>
-          </div>
+          <div class="table-wrap"><table class="rating-table"><thead><tr><th>#</th><th>Ник</th><th>Прог.</th><th>Форма</th><th>Очки</th></tr></thead><tbody id="r-points"></tbody></table></div>
         </div>
         <div class="rating-block">
           <h4>📝 По числу прогнозов</h4>
-          <div class="table-wrap">
-            <table class="rating-table">
-              <thead><tr><th>#</th><th>Ник</th><th>Прог.</th><th>Очки</th></tr></thead>
-              <tbody id="r-count"></tbody>
-            </table>
-          </div>
+          <div class="table-wrap"><table class="rating-table"><thead><tr><th>#</th><th>Ник</th><th>Прог.</th><th>Очки</th></tr></thead><tbody id="r-count"></tbody></table></div>
         </div>
         <div class="rating-block">
           <h4>🎯 По точным счётам</h4>
-          <div class="table-wrap">
-            <table class="rating-table">
-              <thead><tr><th>#</th><th>Ник</th><th>Точных</th><th>Очки</th></tr></thead>
-              <tbody id="r-exact"></tbody>
-            </table>
-          </div>
+          <div class="table-wrap"><table class="rating-table"><thead><tr><th>#</th><th>Ник</th><th>Точных</th><th>Очки</th></tr></thead><tbody id="r-exact"></tbody></table></div>
         </div>
       </div>
     </section>
 
+    <!-- МАТЧИ (ОБНОВЛЕНО) -->
     <section id="tab-matches" class="tab">
-      <h2>Матчи <small>результаты</small></h2>
+      <h2>Матчи <small>нажмите на строку, чтобы увидеть прогнозы</small></h2>
+      
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">Все матчи</button>
+        <button class="filter-btn" data-filter="upcoming">Предстоящие</button>
+        <button class="filter-btn" data-filter="played">Прошедшие</button>
+      </div>
+
       <div class="stats" id="m-stats"></div>
+      
       <div class="table-wrap">
-        <table>
-          <thead><tr><th>#</th><th>Дата</th><th>Соперник</th><th>Д/Г</th><th>Счёт</th><th>Прогнозов</th></tr></thead>
+        <table id="matches-table">
+          <thead><tr><th>#</th><th>Дата</th><th>Соперник</th><th>Д/Г</th><th>Счёт</th><th>Ср. прогноз</th><th>Прогнозов</th></tr></thead>
           <tbody id="m-body"></tbody>
         </table>
       </div>
     </section>
 
+    <!-- ТАБЛИЦА -->
     <section id="tab-standings" class="tab">
       <h2>Турнирная таблица <small>Центральный дивизион</small></h2>
       <div class="table-wrap" style="padding: 10px;">
         <p style="color:var(--mut); font-size:13px; margin-bottom:14px; padding: 0 10px;">Сезон 2026/27 · Выделена строка Utah Mammoth</p>
         <table class="standings-table">
-          <thead>
-            <tr>
-              <th>#</th><th>Команда</th><th>И</th><th>В</th><th>П</th><th>ПО</th><th>Ш</th><th>О</th>
-            </tr>
-          </thead>
+          <thead><tr><th>#</th><th>Команда</th><th>И</th><th>В</th><th>П</th><th>ПО</th><th>Ш</th><th>О</th></tr></thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/MIN_light.svg" width="20" height="20" alt="Minnesota"> Minnesota Wild</div></td>
-              <td>15</td><td>9</td><td>6</td><td>0</td><td>47–35</td><td><b>21</b></td>
-            </tr>
-            <tr class="uta-row">
-              <td>2</td>
-              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/UTA_light.svg" width="20" height="20" alt="Utah"> Utah Mammoth</div></td>
-              <td>14</td><td>9</td><td>5</td><td>0</td><td>51–46</td><td><b style="color:var(--gold)">18</b></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/COL_light.svg" width="20" height="20" alt="Colorado"> Colorado Avalanche</div></td>
-              <td>13</td><td>7</td><td>6</td><td>0</td><td>54–42</td><td><b>15</b></td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/DAL_light.svg" width="20" height="20" alt="Dallas"> Dallas Stars</div></td>
-              <td>13</td><td>7</td><td>6</td><td>0</td><td>35–30</td><td><b>15</b></td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/STL_light.svg" width="20" height="20" alt="St. Louis"> St. Louis Blues</div></td>
-              <td>13</td><td>6</td><td>7</td><td>0</td><td>—</td><td><b>13</b></td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/NSH_light.svg" width="20" height="20" alt="Nashville"> Nashville Predators</div></td>
-              <td>13</td><td>4</td><td>9</td><td>0</td><td>—</td><td><b>13</b></td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/WPG_light.svg" width="20" height="20" alt="Winnipeg"> Winnipeg Jets</div></td>
-              <td>14</td><td>4</td><td>7</td><td>3</td><td>34–47</td><td><b>11</b></td>
-            </tr>
-            <tr>
-              <td>8</td>
-              <td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/CHI_light.svg" width="20" height="20" alt="Chicago"> Chicago Blackhawks</div></td>
-              <td>14</td><td>4</td><td>9</td><td>1</td><td>31–53</td><td><b>9</b></td>
-            </tr>
+            <tr><td>1</td><td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/MIN_light.svg" width="20" height="20" alt="Minnesota"> Minnesota Wild</div></td><td>15</td><td>9</td><td>6</td><td>0</td><td>47–35</td><td><b>21</b></td></tr>
+            <tr class="uta-row"><td>2</td><td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/UTA_light.svg" width="20" height="20" alt="Utah"> Utah Mammoth</div></td><td>14</td><td>9</td><td>5</td><td>0</td><td>51–46</td><td><b style="color:var(--gold)">18</b></td></tr>
+            <tr><td>3</td><td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/COL_light.svg" width="20" height="20" alt="Colorado"> Colorado Avalanche</div></td><td>13</td><td>7</td><td>6</td><td>0</td><td>54–42</td><td><b>15</b></td></tr>
+            <tr><td>4</td><td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/DAL_light.svg" width="20" height="20" alt="Dallas"> Dallas Stars</div></td><td>13</td><td>7</td><td>6</td><td>0</td><td>35–30</td><td><b>15</b></td></tr>
+            <tr><td>5</td><td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/STL_light.svg" width="20" height="20" alt="St. Louis"> St. Louis Blues</div></td><td>13</td><td>6</td><td>7</td><td>0</td><td>—</td><td><b>13</b></td></tr>
+            <tr><td>6</td><td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/NSH_light.svg" width="20" height="20" alt="Nashville"> Nashville Predators</div></td><td>13</td><td>4</td><td>9</td><td>0</td><td>—</td><td><b>13</b></td></tr>
+            <tr><td>7</td><td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/WPG_light.svg" width="20" height="20" alt="Winnipeg"> Winnipeg Jets</div></td><td>14</td><td>4</td><td>7</td><td>3</td><td>34–47</td><td><b>11</b></td></tr>
+            <tr><td>8</td><td><div class="team-cell"><img src="https://assets.nhle.com/logos/nhl/svg/CHI_light.svg" width="20" height="20" alt="Chicago"> Chicago Blackhawks</div></td><td>14</td><td>4</td><td>9</td><td>1</td><td>31–53</td><td><b>9</b></td></tr>
           </tbody>
         </table>
       </div>
@@ -422,6 +275,7 @@
   </div>
 </div>
 
+<!-- МОДАЛКА ИСТОРИИ ИГРОКА -->
 <div id="user-modal" class="modal-overlay" onclick="if(event.target===this) closeModal()">
   <div class="modal-content">
     <div class="modal-header">
@@ -440,11 +294,31 @@
   </div>
 </div>
 
+<!-- НОВАЯ МОДАЛКА МАТЧА -->
+<div id="match-modal" class="modal-overlay" onclick="if(event.target===this) closeMatchModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title-area">
+        <h3 id="match-modal-title">Матч #</h3>
+      </div>
+      <button class="btn-close" onclick="closeMatchModal()" aria-label="Закрыть">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div id="match-stats-container" class="match-stats-grid"></div>
+      <table class="modal-table">
+        <thead><tr><th>Ник</th><th>Прогноз</th><th>Очки</th></tr></thead>
+        <tbody id="match-modal-table"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <script>
 const DATA_URL = 'data.json';
 const $ = (s, c=document) => c.querySelector(s);
 let appState = null;
 let countdownInterval = null;
+let currentMatchFilter = 'all';
 
 function initTheme() {
   const savedTheme = localStorage.getItem('utah_theme');
@@ -515,19 +389,12 @@ function getBadges(r, rank) {
   if (rank === 1) badges.push({ icon: '👑', title: 'Лидер' });
   if (r.count < 3) badges.push({ icon: '🐣', title: 'Новичок' });
   if (r.exact >= 3) badges.push({ icon: '🎯', title: 'Снайпер' });
-  
-  let currentStreak = 0;
-  let maxStreak = 0;
+  let currentStreak = 0, maxStreak = 0;
   for (let s of r.streak) {
-    if (s.type !== 'loss') {
-      currentStreak++;
-      maxStreak = Math.max(maxStreak, currentStreak);
-    } else {
-      currentStreak = 0;
-    }
+    if (s.type !== 'loss') { currentStreak++; maxStreak = Math.max(maxStreak, currentStreak); }
+    else { currentStreak = 0; }
   }
   if (maxStreak >= 3) badges.push({ icon: '🔥', title: 'В ударе' });
-  
   return badges;
 }
 
@@ -537,17 +404,12 @@ function startCountdown(matchDateStr, matchTimeStr) {
   if (countdownInterval) clearInterval(countdownInterval);
   const time = matchTimeStr || '00:00'; 
   const targetDate = new Date(matchDateStr + 'T' + time + ':00+03:00').getTime();
-
   function updateTimer() {
     const now = new Date().getTime();
     const distance = targetDate - now;
     const timerEl = document.getElementById('countdown-timer');
     if (!timerEl) return;
-    if (distance < 0) {
-      timerEl.innerHTML = "Матч начался!";
-      clearInterval(countdownInterval);
-      return;
-    }
+    if (distance < 0) { timerEl.innerHTML = "Матч начался!"; clearInterval(countdownInterval); return; }
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -573,14 +435,9 @@ function renderNextGame(state){
           <div class="ng-vs">VS</div>
           <div class="ng-team">${getLogo(next.opponent, 44)} <b>${esc(next.opponent)}</b></div>
         </div>
-        <div class="ng-info" style="margin-top:8px">
-          <span>${fmtDate(next.date)} в ${displayTime} · ${isHome?'Дома':'В гостях'}</span>
-        </div>
+        <div class="ng-info" style="margin-top:8px"><span>${fmtDate(next.date)} в ${displayTime} · ${isHome?'Дома':'В гостях'}</span></div>
       </div>
-      <div class="ng-countdown">
-        <small>Успейте!</small>
-        <b id="countdown-timer">--:--:--</b>
-      </div>
+      <div class="ng-countdown"><small>Успейте!</small><b id="countdown-timer">--:--:--</b></div>
     </div>
   `;
   startCountdown(next.date, next.time);
@@ -589,79 +446,198 @@ function renderNextGame(state){
 function renderLeader(state) {
   const box = $('#leader-box');
   const list = buildRating(state);
-  
-  if (!list.length) { 
-    box.innerHTML = `<div class="leader-banner"><div class="ng-info"><small>Лидер</small><b>Нет данных</b></div></div>`; 
-    return; 
-  }
-
+  if (!list.length) { box.innerHTML = `<div class="leader-banner"><div class="ng-info"><small>Лидер</small><b>Нет данных</b></div></div>`; return; }
   const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
-  
-  const p1 = sortP[0];
-  const p2 = sortP[1] || null;
-  const p3 = sortP[2] || null;
-
-  let html = `
-    <div class="leader-banner">
-      <div class="ng-info"><small>🏆 Топ-3 участника</small></div>
-      <div class="podium">
-  `;
-
-  if (p2) {
-    html += `
-      <div class="podium-item pos-2" onclick="openUserModal('${esc(p2.nick)}')" title="Прогнозы ${esc(p2.nick)}">
-        <div class="p-nick">${esc(p2.nick)}</div>
-        <div class="p-pts">${p2.points} оч.</div>
-        <div class="p-block">2</div>
-      </div>
-    `;
-  } else {
-    html += `<div style="width:100px"></div>`;
-  }
-
-  html += `
-    <div class="podium-item pos-1" onclick="openUserModal('${esc(p1.nick)}')" title="Прогнозы ${esc(p1.nick)}">
-      <div class="p-nick" style="color:var(--gold)">${esc(p1.nick)}</div>
-      <div class="p-pts">${p1.points} оч.</div>
-      <div class="p-block">1</div>
-    </div>
-  `;
-
-  if (p3) {
-    html += `
-      <div class="podium-item pos-3" onclick="openUserModal('${esc(p3.nick)}')" title="Прогнозы ${esc(p3.nick)}">
-        <div class="p-nick">${esc(p3.nick)}</div>
-        <div class="p-pts">${p3.points} оч.</div>
-        <div class="p-block">3</div>
-      </div>
-    `;
-  } else {
-    html += `<div style="width:100px"></div>`;
-  }
-
+  const p1 = sortP[0], p2 = sortP[1] || null, p3 = sortP[2] || null;
+  let html = `<div class="leader-banner"><div class="ng-info"><small>🏆 Топ-3 участника</small></div><div class="podium">`;
+  if (p2) html += `<div class="podium-item pos-2" onclick="openUserModal('${esc(p2.nick)}')"><div class="p-nick">${esc(p2.nick)}</div><div class="p-pts">${p2.points} оч.</div><div class="p-block">2</div></div>`;
+  else html += `<div style="width:100px"></div>`;
+  html += `<div class="podium-item pos-1" onclick="openUserModal('${esc(p1.nick)}')"><div class="p-nick" style="color:var(--gold)">${esc(p1.nick)}</div><div class="p-pts">${p1.points} оч.</div><div class="p-block">1</div></div>`;
+  if (p3) html += `<div class="podium-item pos-3" onclick="openUserModal('${esc(p3.nick)}')"><div class="p-nick">${esc(p3.nick)}</div><div class="p-pts">${p3.points} оч.</div><div class="p-block">3</div></div>`;
+  else html += `<div style="width:100px"></div>`;
   html += `</div></div>`;
   box.innerHTML = html;
 }
 
+/* =========================================
+   ОБНОВЛЕННЫЙ РЕНДЕР МАТЧЕЙ
+   ========================================= */
+function renderMatches(state) {
+  const body = $('#m-body');
+  let matches = state.matches;
+
+  if (currentMatchFilter === 'upcoming') matches = matches.filter(m => !isPlayed(m));
+  if (currentMatchFilter === 'played') matches = matches.filter(m => isPlayed(m));
+
+  if (!matches.length) {
+    body.innerHTML = `<tr><td colspan="7"><div class="empty">Матчей не найдено</div></td></tr>`;
+    return;
+  }
+
+  body.innerHTML = matches.map(m => {
+    const pl = isPlayed(m);
+    const preds = state.predictions.filter(p => Number(p.matchId) === m.id);
+    const cnt = preds.length;
+    
+    let avgTxt = '—';
+    if (cnt > 0) {
+      const avgU = (preds.reduce((sum, p) => sum + p.utah, 0) / cnt).toFixed(1);
+      const avgO = (preds.reduce((sum, p) => sum + p.opp, 0) / cnt).toFixed(1);
+      avgTxt = `${avgU} : ${avgO}`;
+    }
+
+    let scoreTxt = '—';
+    let statusBadge = '';
+    if (pl) {
+      scoreTxt = `${m.utah} : ${m.opp}`;
+      if (m.utah > m.opp) statusBadge = `<span class="badge ok" style="margin-left:8px">Победа</span>`;
+      else if (m.utah < m.opp) statusBadge = `<span class="badge bad" style="margin-left:8px">Поражение</span>`;
+      else statusBadge = `<span class="badge mut" style="margin-left:8px">ОТ/БУЛ</span>`;
+    }
+
+    return `<tr class="${pl ? 'played' : ''} match-row" onclick="openMatchModal(${m.id})">
+      <td>${m.id}</td>
+      <td>${fmtDate(m.date)}</td>
+      <td><div class="team-cell">${getLogo(m.opponent)} ${esc(m.opponent)}</div></td>
+      <td>${esc(m.venue)}</td>
+      <td><b style="color:${pl ? 'var(--mountain)' : 'var(--mut)'}">${scoreTxt}</b> ${statusBadge}</td>
+      <td style="color:var(--gold);font-weight:600;">${avgTxt}</td>
+      <td>${cnt || '—'}</td>
+    </tr>`;
+  }).join('');
+
+  // Обновляем статистику
+  const played = state.matches.filter(isPlayed).length;
+  $('#m-stats').innerHTML = `
+    <div class="stat"><small>Всего матчей</small><b>${state.matches.length}</b></div>
+    <div class="stat"><small>Сыграно</small><b>${played}</b></div>
+    <div class="stat"><small>Прогнозов</small><b>${state.predictions.length}</b></div>
+  `;
+}
+
+// Обработчик фильтров матчей
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    currentMatchFilter = e.target.dataset.filter;
+    renderMatches(appState);
+  });
+});
+
+/* =========================================
+   МОДАЛКА МАТЧА (СТАТИСТИКА)
+   ========================================= */
+window.openMatchModal = function(matchId) {
+  if (!appState) return;
+  const m = appState.matches.find(x => x.id === matchId);
+  if (!m) return;
+  
+  const preds = appState.predictions.filter(p => Number(p.matchId) === matchId);
+  const pl = isPlayed(m);
+  
+  $('#match-modal-title').innerHTML = `#${m.id} Юта vs ${esc(m.opponent)} <span style="font-size:14px;color:var(--mut);font-weight:400">(${fmtDate(m.date)})</span>`;
+  
+  // Подсчет статистики
+  let avgU = 0, avgO = 0;
+  let utahWins = 0, oppWins = 0, draws = 0;
+  
+  if (preds.length > 0) {
+    avgU = (preds.reduce((sum, p) => sum + p.utah, 0) / preds.length).toFixed(1);
+    avgO = (preds.reduce((sum, p) => sum + p.opp, 0) / preds.length).toFixed(1);
+    preds.forEach(p => {
+      if (p.utah > p.opp) utahWins++;
+      else if (p.utah < p.opp) oppWins++;
+      else draws++;
+    });
+  }
+
+  // Отрисовка блоков статистики
+  let statsHtml = '';
+  if (pl) {
+    // Если матч сыгран, показываем реальный счет
+    const actualStatus = m.utah > m.opp ? 'Победа Юты' : m.utah < m.opp ? 'Победа соперника' : 'Ничья';
+    statsHtml = `
+      <div class="match-stat-box">
+        <small>Реальный счёт</small>
+        <b style="color:var(--gold); font-size:24px">${m.utah} : ${m.opp}</b>
+        <div style="font-size:12px; margin-top:4px; color:var(--mut)">${actualStatus}</div>
+      </div>
+      <div class="match-stat-box">
+        <small>Средний прогноз</small>
+        <b>${avgU} : ${avgO}</b>
+        <div style="font-size:12px; margin-top:4px; color:var(--mut)">Сделано ${preds.length} прогнозов</div>
+      </div>
+    `;
+  } else {
+    // Если не сыгран, показываем распределение прогнозов
+    const totalVotes = utahWins + oppWins + draws || 1;
+    const utahPct = Math.round((utahWins / totalVotes) * 100);
+    const oppPct = Math.round((oppWins / totalVotes) * 100);
+    statsHtml = `
+      <div class="match-stat-box">
+        <small>Средний прогноз</small>
+        <b>${avgU} : ${avgO}</b>
+      </div>
+      <div class="match-stat-box" style="text-align:left">
+        <small>Мнения участников (${preds.length})</small>
+        <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:4px;">
+          <span style="color:var(--mountain)">Победа Юты: ${utahPct}%</span>
+          <span style="color:var(--bad)">Победа соперника: ${oppPct}%</span>
+        </div>
+        <div class="bar-container">
+          <div class="bar-utah" style="width:${utahPct}%"></div>
+          <div class="bar-opp" style="width:${oppPct}%"></div>
+        </div>
+      </div>
+    `;
+  }
+  $('#match-stats-container').innerHTML = statsHtml;
+
+  // Таблица прогнозов
+  if (!preds.length) {
+    $('#match-modal-table').innerHTML = `<tr><td colspan="3"><div class="empty">На этот матч пока нет прогнозов</div></td></tr>`;
+  } else {
+    preds.sort((a,b) => a.nick.localeCompare(b.nick));
+    $('#match-modal-table').innerHTML = preds.map(p => {
+      const s = score(p, m, appState.config);
+      let ptsCell = `<span class="badge mut">—</span>`;
+      if (s.points != null) {
+        if (s.exact) ptsCell = `<span class="pts">${s.points}</span> <span class="badge exact">точно!</span>`;
+        else if (s.points > 0) ptsCell = `<span class="pts">${s.points}</span>`;
+        else ptsCell = `<span class="badge bad">0</span>`;
+      }
+      return `<tr>
+        <td><span class="nick-btn ${p.nick.startsWith('@')?'tg':''}">${esc(p.nick)}</span></td>
+        <td><b style="color:var(--mountain)">${p.utah} : ${p.opp}</b></td>
+        <td>${ptsCell}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  $('#match-modal').classList.add('active');
+}
+
+window.closeMatchModal = function() { $('#match-modal').classList.remove('active'); }
+
+/* =========================================
+   ОСТАЛЬНОЙ РЕНДЕР
+   ========================================= */
 window.openUserModal = function(nickname) {
   if (!appState) return;
   const preds = appState.predictions.filter(p => p.nick === nickname);
   preds.sort((a,b) => Number(a.matchId) - Number(b.matchId));
-
   const list = buildRating(appState);
   const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
   const rank = sortP.findIndex(u => u.nick === nickname) + 1;
   const userStats = list.find(u => u.nick === nickname);
-  
   let badgesHtml = '';
   if (userStats) {
     const badges = getBadges(userStats, rank);
     badgesHtml = badges.map(b => `<div class="modal-badge">${b.icon} ${b.title}</div>`).join('');
   }
-
   $('#modal-title').innerHTML = `История: <span style="color:var(--mountain)">${esc(nickname)}</span>`;
   $('#modal-badges').innerHTML = badgesHtml;
-
   if (!preds.length) {
     $('#modal-body-table').innerHTML = `<tr><td colspan="5"><div class="empty">Нет прогнозов</div></td></tr>`;
   } else {
@@ -688,27 +664,27 @@ window.openUserModal = function(nickname) {
 }
 
 window.closeModal = function() { $('#user-modal').classList.remove('active'); }
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.closeModal(); });
+document.addEventListener('keydown', (e) => { 
+  if (e.key === 'Escape') { closeModal(); closeMatchModal(); } 
+});
 
 function render(state){
   appState = state;
   $('#loader').style.display='none';
   $('#content').style.display='block';
-
   renderNextGame(state);
   renderLeader(state);
+  renderMatches(state); // Обновленный рендер
 
   const list = buildRating(state);
   const sortP = [...list].sort((a,b)=>b.points-a.points||b.exact-a.exact||b.count-a.count||a.nick.localeCompare(b.nick));
   const sortC = [...list].sort((a,b)=>b.count-a.count||b.points-a.points||a.nick.localeCompare(b.nick));
   const sortE = [...list].sort((a,b)=>b.exact-a.exact||b.points-a.points||a.nick.localeCompare(b.nick));
 
-  // Отрисовка строк с бейджами и обрезкой текста
   const renderBody = (arr, cols) => arr.length ? arr.map((r,i)=>{
     const rank = i + 1;
     const badges = getBadges(r, rank);
     const badgeHtml = badges.length ? `<span class="user-badges">${badges.map(b => `<span class="badge-icon" title="${b.title}">${b.icon}</span>`).join('')}</span>` : '';
-    
     return `<tr>
       <td><span class="${posClass(i)}">${rank}</span></td>
       <td>
@@ -726,20 +702,6 @@ function render(state){
   $('#r-points').innerHTML = renderBody(sortP, ['count','streak']);
   $('#r-count').innerHTML  = renderBody(sortC, ['count']);
   $('#r-exact').innerHTML  = renderBody(sortE, ['exact']);
-
-  const played = state.matches.filter(isPlayed).length;
-  $('#m-stats').innerHTML = `
-    <div class="stat"><small>Всего матчей</small><b>${state.matches.length}</b></div>
-    <div class="stat"><small>Сыграно</small><b>${played}</b></div>
-    <div class="stat"><small>Прогнозов</small><b>${state.predictions.length}</b></div>
-  `;
-
-  $('#m-body').innerHTML = state.matches.map(m=>{
-    const cnt = state.predictions.filter(p=>Number(p.matchId)===m.id).length;
-    const pl = isPlayed(m);
-    const scoreTxt = pl ? `${m.utah} : ${m.opp}` : '—';
-    return `<tr class="${pl?'played':''}"><td>${m.id}</td><td>${fmtDate(m.date)}</td><td><div class="team-cell">${getLogo(m.opponent)} ${esc(m.opponent)}</div></td><td>${esc(m.venue)}</td><td><b style="color:${pl?'var(--mountain)':'var(--mut)'}">${scoreTxt}</b></td><td>${cnt||'—'}</td></tr>`;
-  }).join('');
 }
 
 document.querySelectorAll('nav button').forEach(btn => {
