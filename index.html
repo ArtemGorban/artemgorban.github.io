@@ -5,31 +5,105 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Уютная Юта — Рейтинг</title>
 <style>
-  :root{
-    --navy:#0E1E3C; --mountain:#71C5E8; --gold:#C9A961;
-    --bg:#060E1F; --card:#0F1E38; --line:#1E3358; --txt:#E6EEF8; --mut:#8FA6C6;
-    --ok:#4ADE80; --bad:#F87171; --warn:#FBBF24;
+  /* =========================================
+     ПЕРЕМЕННЫЕ (ТЕМНАЯ ТЕМА ПО УМОЛЧАНИЮ)
+     ========================================= */
+  :root {
+    --navy: #0E1E3C; 
+    --mountain: #71C5E8; 
+    --gold: #C9A961;
+    --bg: #060E1F; 
+    --card: #0F1E38; 
+    --line: #1E3358; 
+    --txt: #E6EEF8; 
+    --mut: #8FA6C6;
+    --ok: #4ADE80; 
+    --bad: #F87171; 
+    --warn: #FBBF24;
+    
+    --header-bg: rgba(6,14,31,.94);
+    --hover-bg: rgba(113,197,232,.04);
+    --next-game-bg: linear-gradient(135deg, rgba(113,197,232,.15), rgba(14,30,60,.8));
+    --leader-bg: linear-gradient(135deg, rgba(201,169,97,.15), rgba(14,30,60,.8));
   }
+
+  /* =========================================
+     СВЕТЛАЯ ТЕМА
+     ========================================= */
+  [data-theme="light"] {
+    --navy: #0E1E3C; /* Оставляем темным для контраста на светлом */
+    --mountain: #1E88E5; /* Делаем синий чуть темнее для читаемости */
+    --gold: #B8860B; 
+    --bg: #F0F4F8; 
+    --card: #FFFFFF; 
+    --line: #D1D9E6; 
+    --txt: #0E1E3C; 
+    --mut: #64748B;
+    --ok: #10B981; 
+    --bad: #EF4444; 
+    --warn: #F59E0B;
+
+    --header-bg: rgba(255,255,255,.94);
+    --hover-bg: rgba(0,0,0,.03);
+    --next-game-bg: linear-gradient(135deg, rgba(30,136,229,.08), rgba(255,255,255,1));
+    --leader-bg: linear-gradient(135deg, rgba(184,134,11,.08), rgba(255,255,255,1));
+  }
+
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,#040A17 0%,#0A1530 100%);color:var(--txt);line-height:1.5;min-height:100vh;padding:20px}
+  body{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--txt);
+    line-height:1.5;
+    min-height:100vh;
+    padding:20px;
+    transition: background .3s, color .3s;
+  }
   .wrap{max-width:1200px;margin:0 auto}
   
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  /* Header & Nav */
+  header{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);
+    flex-wrap:wrap;
+    background:var(--header-bg);
+    position:sticky; top:0; z-index:50;
+    padding-top:16px; margin-top:-20px; /* Чтобы прилипало красиво */
+  }
   .brand{display:flex;align-items:center;gap:12px}
   .brand img{width:44px;height:44px}
   .brand b{font-size:18px;color:var(--mountain);display:block;line-height:1.2}
   .brand span{font-size:11px;letter-spacing:2px;color:var(--mut)}
-  nav{display:flex;gap:8px;flex-wrap:wrap}
-  nav button{background:transparent;border:1px solid transparent;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--mut);transition:.2s}
-  nav button:hover{color:var(--txt);background:var(--card)}
+  
+  nav{display:flex;gap:8px;flex-wrap:wrap; align-items:center;}
+  nav button{
+    background:transparent;border:1px solid transparent;padding:6px 14px;border-radius:8px;
+    cursor:pointer;font-size:13px;font-weight:600;color:var(--mut);transition:.2s;
+  }
+  nav button:hover{color:var(--txt);background:var(--hover-bg)}
   nav button.active{background:var(--mountain);color:var(--navy);border-color:var(--mountain)}
   
+  /* Кнопка темы */
+  .theme-btn {
+    background:var(--card); border:1px solid var(--line); color:var(--txt);
+    width:36px; height:36px; border-radius:50%; cursor:pointer;
+    font-size:16px; display:flex; align-items:center; justify-content:center;
+    transition:.2s; margin-left:8px;
+  }
+  .theme-btn:hover { border-color:var(--mountain); transform:scale(1.05); }
+
   .tab{display:none;animation:fade .2s}
   .tab.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
   
   .banners-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));gap: 16px;margin-bottom: 24px;align-items: stretch;}
-  .next-game{background:linear-gradient(135deg, rgba(113,197,232,.15), rgba(14,30,60,.8));border:1px solid var(--mountain); border-radius:12px; padding:20px;display:flex; align-items:center; justify-content:space-between;flex-wrap:wrap; gap:16px;height: 100%;}
+  
+  .next-game{
+    background:var(--next-game-bg);
+    border:1px solid var(--mountain); border-radius:12px; padding:20px;
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:16px; height: 100%; transition: background .3s;
+  }
   .ng-teams{display:flex;align-items:center;gap:16px}
   .ng-team{display:flex;align-items:center;gap:10px}
   .ng-team img{width:44px;height:44px}
@@ -37,27 +111,32 @@
   .ng-vs{color:var(--gold);font-weight:900;font-size:12px;letter-spacing:2px}
   .ng-info small{display:block;color:var(--mountain);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:4px}
   .ng-info span{color:var(--mut);font-size:13px}
-  .ng-countdown{background:var(--navy);padding:8px 14px;border-radius:8px;text-align:center;border:1px solid var(--line); min-width:130px;}
+  .ng-countdown{background:var(--bg);padding:8px 14px;border-radius:8px;text-align:center;border:1px solid var(--line); min-width:130px;}
   .ng-countdown small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase;margin-bottom:2px}
   .ng-countdown b{font-size:15px;color:var(--gold);font-family:ui-monospace, Consolas, monospace; letter-spacing:0.5px;}
 
-  .leader-banner {background: linear-gradient(135deg, rgba(201,169,97,.15), rgba(14,30,60,.8));border: 1px solid var(--gold); border-radius: 12px; padding: 20px;display: flex; align-items: center; justify-content: space-between; gap: 16px;height: 100%;}
+  .leader-banner {
+    background: var(--leader-bg);
+    border: 1px solid var(--gold); border-radius: 12px; padding: 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    height: 100%; transition: background .3s;
+  }
   .leader-banner .ng-info small { color: var(--gold); }
   
   h2{font-size:20px;margin:24px 0 14px;font-weight:800;display:flex;align-items:center;gap:10px}
   h2 small{font-size:12px;color:var(--mut);font-weight:400}
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
-  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px; transition: background .3s;}
   .stat small{display:block;color:var(--mut);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
   .stat b{font-size:22px;color:var(--mountain);font-weight:800}
   
-  .table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:20px}
+  .table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:20px; transition: background .3s;}
   table{width:100%;border-collapse:collapse;font-size:13px}
-  th{text-align:left;padding:10px 8px;font-size:10px;letter-spacing:0.5px;color:var(--mut);text-transform:uppercase;border-bottom:1px solid var(--line);font-weight:700;background:rgba(113,197,232,.04);white-space:nowrap}
-  td{padding:9px 8px;border-bottom:1px solid rgba(30,51,88,.5)}
-  tr:hover td{background:rgba(113,197,232,.04)}
-  tr.played td{background:rgba(74,222,128,.03)}
-  tr.exact td{background:rgba(201,169,97,.08)}
+  th{text-align:left;padding:10px 8px;font-size:10px;letter-spacing:0.5px;color:var(--mut);text-transform:uppercase;border-bottom:1px solid var(--line);font-weight:700;background:var(--hover-bg);white-space:nowrap}
+  td{padding:9px 8px;border-bottom:1px solid var(--line)}
+  tr:hover td{background:var(--hover-bg)}
+  tr.played td{background:rgba(74,222,128,.05)}
+  tr.exact td{background:rgba(201,169,97,.1)}
   
   .standings-table th { text-align: center; }
   .standings-table td { text-align: center; }
@@ -74,16 +153,16 @@
   .pts{font-weight:800;color:var(--mountain)}
   .pos{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:rgba(113,197,232,.1);color:var(--mountain);font-weight:800;font-size:12px}
   .pos.gold{background:rgba(201,169,97,.2);color:var(--gold)}
-  .pos.silver{background:rgba(200,200,200,.15);color:#C8C8C8}
-  .pos.bronze{background:rgba(200,140,80,.2);color:#C88C50}
+  .pos.silver{background:rgba(200,200,200,.2);color:#888}
+  .pos.bronze{background:rgba(200,140,80,.2);color:#A0522D}
   
   .nick-btn {background: transparent; border: 1px solid transparent; padding: 2px 4px; border-radius: 6px;cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 700; color: var(--txt);display: inline-flex; align-items: center; gap: 4px; transition: .2s;}
-  .nick-btn:hover { background: rgba(113,197,232,.15); border-color: var(--mountain); }
+  .nick-btn:hover { background: var(--hover-bg); border-color: var(--mountain); }
   .nick-btn.tg { color: var(--mountain); }
   .nick-btn .icon { font-size: 10px; opacity: .5; }
   .nick-btn:hover .icon { opacity: 1; }
   
-  .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:8px;background:rgba(6,14,31,.4);padding:6px 10px;border-radius:6px}
+  .legend{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--mut);margin-bottom:8px;background:var(--hover-bg);padding:6px 10px;border-radius:6px}
   .legend span{display:flex;align-items:center;gap:4px}
   .streak{display:flex;gap:2px}
   .streak span{width:6px;height:6px;border-radius:50%;background:var(--mut);display:inline-block}
@@ -107,7 +186,7 @@
   .modal-overlay.active{opacity:1;pointer-events:auto}
   .modal-content{background:var(--card);border:1px solid var(--mountain);border-radius:12px;width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;transform:translateY(20px);transition:.3s;box-shadow:0 20px 40px rgba(0,0,0,.5)}
   .modal-overlay.active .modal-content{transform:translateY(0)}
-  .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:rgba(113,197,232,.05);border-radius:12px 12px 0 0}
+  .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--hover-bg);border-radius:12px 12px 0 0}
   .modal-header h3{font-size:18px;color:var(--gold);margin:0;display:flex;align-items:center;gap:10px}
   .btn-close{background:transparent;border:none;color:var(--mut);font-size:24px;cursor:pointer;line-height:1;transition:.2s}
   .btn-close:hover{color:var(--bad)}
@@ -127,11 +206,15 @@
         <span>КОНКУРС ПРОГНОЗОВ</span>
       </div>
     </div>
-    <nav>
-      <button class="active" data-tab="rating">Рейтинг</button>
-      <button data-tab="matches">Матчи</button>
-      <button data-tab="standings">Таблица</button>
-    </nav>
+    <div style="display:flex; align-items:center;">
+      <nav>
+        <button class="active" data-tab="rating">Рейтинг</button>
+        <button data-tab="matches">Матчи</button>
+        <button data-tab="standings">Таблица</button>
+      </nav>
+      <!-- Кнопка переключения темы -->
+      <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()" title="Сменить тему">🌙</button>
+    </div>
   </header>
 
   <div id="loader" class="loading">Загрузка данных…</div>
@@ -273,6 +356,32 @@ const DATA_URL = 'data.json';
 const $ = (s, c=document) => c.querySelector(s);
 let appState = null;
 let countdownInterval = null;
+
+// === ЛОГИКА СМЕНЫ ТЕМЫ ===
+function initTheme() {
+  const savedTheme = localStorage.getItem('utah_theme');
+  if (savedTheme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    $('#theme-toggle').textContent = '☀️';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    $('#theme-toggle').textContent = '🌙';
+  }
+}
+
+function toggleTheme() {
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  if (isLight) {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('utah_theme', 'dark');
+    $('#theme-toggle').textContent = '🌙';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('utah_theme', 'light');
+    $('#theme-toggle').textContent = '☀️';
+  }
+}
+// ==========================
 
 const TEAM_ABBR = {'Юта': 'UTA', 'Питтсбург': 'PIT', 'Сиэтл Кракен': 'SEA', 'Тампа': 'TBL', 'Миннесота': 'MIN','Филадельфия': 'PHI', 'Торонто': 'TOR', 'Монреаль': 'MTL', 'Оттава': 'OTT','Вегас': 'VGK', 'Сент-Луис': 'STL', 'Сан-Хосе': 'SJS', 'Ванкувер': 'VAN','Колорадо': 'COL', 'Анахайм': 'ANA', 'Виннипег': 'WPG', 'Нэшвилл': 'NSH','Даллас': 'DAL', 'Лос-Анджелес': 'LAK', 'Чикаго': 'CHI', 'Нью-Йорк Айлендерс': 'NYI','Каролина': 'CAR', 'Эдмонтон': 'EDM', 'Нью-Джерси': 'NJD', 'Детройт': 'DET','Бостон': 'BOS', 'Баффало': 'BUF', 'Вашингтон': 'WSH', 'Калгари': 'CGY','Коламбус': 'CBJ', 'Флорида': 'FLA', 'Нью-Йорк Рейнджерс': 'NYR'};
 
@@ -503,6 +612,8 @@ async function loadData(){
   }
 }
 
+// Инициализируем тему перед загрузкой данных
+initTheme();
 loadData();
 </script>
 </body>
