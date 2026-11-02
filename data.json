@@ -55,8 +55,8 @@
       "date": "2026-11-02",
       "opponent": "Филадельфия",
       "venue": "В гостях",
-      "utah": null,
-      "opp": null,
+      "utah": 3,
+      "opp": 6,
       "time": "00:00"
     },
     {
