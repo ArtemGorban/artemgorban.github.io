@@ -968,6 +968,55 @@
       "matchId": 6,
       "utah": 5,
       "opp": 1
+    },
+    {
+      "id": "pmvyvn175cvvr8u",
+      "nick": "@Tema_Gorban",
+      "matchId": 7,
+      "utah": 2,
+      "opp": 3
+    },
+    {
+      "id": "pmw0w7uux1j8qyp",
+      "nick": "@yuriykursk",
+      "matchId": 7,
+      "utah": 3,
+      "opp": 5
+    },
+    {
+      "id": "pmw0w869kc9c6mt",
+      "nick": "@radey98",
+      "matchId": 7,
+      "utah": 1,
+      "opp": 3
+    },
+    {
+      "id": "pmw0w981y8epr3s",
+      "nick": "@vetonametag",
+      "matchId": 7,
+      "utah": 4,
+      "opp": 2
+    },
+    {
+      "id": "pmw0w9icjc7foqk",
+      "nick": "@Tema_Gorban",
+      "matchId": 7,
+      "utah": 3,
+      "opp": 2
+    },
+    {
+      "id": "pmw0wa0az7e87r3",
+      "nick": "@ImFreak",
+      "matchId": 7,
+      "utah": 4,
+      "opp": 3
+    },
+    {
+      "id": "pmw0wae9x6v9orn",
+      "nick": "@StraneR54",
+      "matchId": 7,
+      "utah": 5,
+      "opp": 3
     }
   ]
 }
