@@ -64,8 +64,8 @@
       "date": "2026-11-04",
       "opponent": "Торонто",
       "venue": "В гостях",
-      "utah": null,
-      "opp": null,
+      "utah": 3,
+      "opp": 2,
       "time": "03:00"
     },
     {
@@ -1010,6 +1010,27 @@
       "matchId": 7,
       "utah": 5,
       "opp": 3
+    },
+    {
+      "id": "pmw1q6q1yqgfqkh",
+      "nick": "Матвей",
+      "matchId": 7,
+      "utah": 2,
+      "opp": 4
+    },
+    {
+      "id": "pmw1q77d53pq304",
+      "nick": "@anton_hamburg",
+      "matchId": 7,
+      "utah": 6,
+      "opp": 4
+    },
+    {
+      "id": "pmw1q88uryfuf9h",
+      "nick": "@hlebushekvkusno",
+      "matchId": 7,
+      "utah": 1,
+      "opp": 2
     }
   ]
 }
